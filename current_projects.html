@@ -3,16 +3,18 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Xiaoyi Guo</title>
+  <title>Xiaoyi Guo – Projects</title>
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&display=swap" rel="stylesheet">
   <style>
     body {
-      font-family: "Times New Roman", serif;
+      font-family: "Merriweather", serif;
       margin: 0;
       background: #f9f9f9;
       color: #222;
     }
+
     .container {
-      max-width: 800px;
+      max-width: 900px;
       margin: 0 auto;
       padding: 2em;
     }
@@ -20,6 +22,9 @@
     h1 {
       text-align: center;
       margin-bottom: 2em;
+      font-size: 2em;
+      border-bottom: 2px solid #ccc;
+      padding-bottom: 0.4em;
     }
 
     .project {
@@ -28,6 +33,7 @@
       display: flex;
       flex-wrap: wrap;
       gap: 2em;
+      align-items: flex-start;
     }
 
     .project img {
@@ -36,6 +42,8 @@
       height: auto;
       border: 1px solid #ccc;
       background: white;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      border-radius: 4px;
     }
 
     .project-text {
@@ -45,6 +53,7 @@
 
     .project h2 {
       margin-top: 0;
+      font-size: 1.3em;
     }
 
     .downloads a {
@@ -60,7 +69,7 @@
     }
 
     .downloads a:hover {
-      background-color: #00802F;
+      background-color: #006622;
     }
 
     footer {
@@ -81,6 +90,7 @@
       position: sticky;
       top: 0;
       z-index: 100;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
     }
 
     .nav-left {
@@ -104,12 +114,6 @@
       text-decoration: underline;
     }
 
-    h1 {
-      border-bottom: 2px solid #ccc;
-      padding-bottom: 0.3em;
-      margin-top: 0;
-    }
-
     section {
       margin-top: 2em;
     }
@@ -121,18 +125,6 @@
 
     a:hover {
       text-decoration: underline;
-    }
-
-    .muted {
-      color: #666;
-      font-size: 0.95em;
-    }
-
-    footer {
-      margin-top: 4em;
-      font-size: 0.9em;
-      color: #999;
-      text-align: center;
     }
   </style>
 </head>
@@ -150,32 +142,28 @@
   </nav>
 
   <div class="container">
-    <h1>Projects related to PhD</h1>
+    <h1>Projects Related to PhD</h1>
 
     <!-- Project 1 -->
     <div class="project">
       <img src="project1.png" alt="Project 1 image">
       <div class="project-text">
         <h2>(Ongoing) Evolution of Reference Points over Time</h2>
-        <p> The formation and evolution of reference points in a dynamic setting are rare topics in discussions of reference-dependent preferences.  Based on existing theories about the formation of reference points, we conduct a controlled economic experiment on a representative sample. Our aim is to establish a unified framework describing reference points in dynamic settings.
-</p>
+        <p>The formation and evolution of reference points in a dynamic setting are rare topics in discussions of reference-dependent preferences. Based on existing theories, we conduct a controlled economic experiment on a representative sample. Our aim is to establish a unified framework describing reference points in dynamic settings.</p>
         <div class="downloads">
           <a href="poster.pdf" download>Poster</a>
         </div>
       </div>
     </div>
-    <!-- Project 2 -->
 
+    <h1>Side Projects (For Fun / Public Good)</h1>
 
-    <p> </p>
-    <p> </p>
-
-    <h1>Side Projects (Doing for Fun/Public Good)</h1>
-        <div class="project">
-      <img src="specialty_diff.jpeg" alt="TDF">
+    <!-- Side Project 1 -->
+    <div class="project">
+      <img src="specialty_diff.jpeg" alt="Tour de France Analysis">
       <div class="project-text">
         <h2>Evaluating Home Effect for Professional Cycling</h2>
-        <p> This research is the first in the field trying to comprehensively understand the home effect in professional cycling, based on Tour de France. We use modified causal forests to estimate the home effects of French riders in different stages of Tour de France. The result is that there is a considerable negative home effect for home riders in home stage, and such effect exhibits heterogeneous variations.</p>
+        <p>This research is the first in the field trying to comprehensively understand the home effect in professional cycling, based on Tour de France. We use modified causal forests to estimate the home effects of French riders in different stages. A considerable negative home effect is observed, with heterogeneous variations across stages.</p>
         <div class="downloads">
           <a href="report_home_effect_CGM.pdf" download>Paper</a>
           <a href="slides_home_effect_CGM.pdf" download>Slides</a>
@@ -183,17 +171,15 @@
       </div>
     </div>
 
-        <div class="project">
-      <img src="cascade.png" alt="TDF">
+    <!-- Side Project 2 -->
+    <div class="project">
+      <img src="cascade.png" alt="coolTree Interface">
       <div class="project-text">
-        <h2><code>coolTree</code>: Enhanced Experimental Interface with More Templates</h2>
-        <p> This is a side project I did to enhance the experimental interface of <code>oTree</code>, which is a Python package for designing and conducting economic experiments. The new version includes more templates for different types of experiments, making it easier for researchers to set up their studies without extensive coding.</p>
-        <p> This project is available on GitHub and is still under development. Stay tuned for updates! :)</p>
-          <div class="downloads">
-
-        </div>
+        <h2><code>coolTree</code>: Enhanced Experimental Interface for <code>oTree</code></h2>
+        <p>This is a side project I built to improve the usability of <code>oTree</code>, a Python framework for economic experiments. <code>coolTree</code> provides new templates for faster setup and better visual clarity, helping researchers without advanced frontend skills. The project is open-source and in active development.</p>
       </div>
     </div>
+
     <footer>
       &copy; 2025 Xiaoyi Guo. All rights reserved.
     </footer>
