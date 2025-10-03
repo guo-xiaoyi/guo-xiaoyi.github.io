@@ -142,8 +142,32 @@
 
     <footer>
       &copy; 2025 Xiaoyi Guo. All rights reserved.
+      <div>Visits: <span id="visits-count">—</span></div>
     </footer>
   </div>
 
 </body>
+<script>
+  (function() {
+    var el = document.getElementById('visits-count');
+    if (!el) return;
+    // Use a stable key based on site hostname and path
+    var key = (location.hostname || 'guo-xiaoyi.github.io') + (location.pathname || '/');
+    var url = 'https://api.countapi.xyz/hit/' + encodeURIComponent(key);
+    fetch(url)
+      .then(function(res) { return res.json(); })
+      .then(function(data) {
+        if (data && typeof data.value === 'number') {
+          try {
+            el.textContent = data.value.toLocaleString();
+          } catch (e) {
+            el.textContent = String(data.value);
+          }
+        }
+      })
+      .catch(function() {
+        // Leave placeholder on failure
+      });
+  })();
+  </script>
 </html>
