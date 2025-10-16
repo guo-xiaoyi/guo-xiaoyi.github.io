@@ -6,98 +6,104 @@
   <title>Xiaoyi Guo</title>
   <style>
     body {
-      font-family: Verdana, Geneva, Tahoma, sans-serif;
+      font-family: "Times New Roman", Times, serif;
       margin: 0;
-      background: #f9f9f9;
-      color: #222;
-    }
-    .container {
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 2em;
+      padding: 0;
+      background: #fff;
+      color: #1a1a1a;
+      line-height: 1.7;
     }
 
-    /* Navbar styling */
     nav {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 1.5rem 2rem 0;
       display: flex;
-      align-items: center;
+      align-items: baseline;
       justify-content: space-between;
-      background-color: #ffffff;
-      border-bottom: 1px solid #ddd;
-      padding: 1em 2em;
-      position: sticky;
-      top: 0;
-      z-index: 100;
+      font-size: 0.95rem;
     }
 
-    .nav-left {
+    .nav-title {
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .nav-links {
       display: flex;
-      align-items: center;
-    }
-
-    .nav-left img {
-      height: 40px;
-      margin-right: 1em;
+      gap: 1.5rem;
     }
 
     .nav-links a {
-      margin-left: 1em;
       text-decoration: none;
-      color: #00802F;
-      font-weight: 500;
+      color: inherit;
     }
 
     .nav-links a:hover {
       text-decoration: underline;
     }
 
-    h1 {
-      border-bottom: 2px solid #ccc;
-      padding-bottom: 0.3em;
-      margin-top: 0;
+    .container {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 2.5rem 2rem 3rem;
     }
 
-    section {
-      margin-top: 2em;
+    h1 {
+      margin: 0 0 1.5rem;
+      font-size: 2.2rem;
+      font-weight: 600;
+    }
+
+    h2 {
+      margin: 2.5rem 0 1rem;
+      font-size: 1.35rem;
+      font-weight: 600;
+    }
+
+    section + section {
+      margin-top: 2.5rem;
+    }
+
+    ul {
+      margin: 0;
+      padding-left: 1.1rem;
     }
 
     a {
-      color: #00802F;
-      text-decoration: none;
-    }
-
-    a:hover {
+      color: inherit;
       text-decoration: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 0.2em;
     }
 
     .muted {
-      color: #666;
+      color: #555;
       font-size: 0.95em;
     }
 
     footer {
-      margin-top: 4em;
+      margin-top: 4rem;
       font-size: 0.9em;
-      color: #999;
+      color: #777;
       text-align: center;
     }
   </style>
 </head>
 <body>
-
-  <!-- Navigation bar -->
   <nav>
-    <div class="nav-left">
-      <img src="HSG_Logo_DE_RGB.png" alt="Logo" />
-    </div>
+    <a class="nav-title" href="index.html">Xiaoyi Guo</a>
     <div class="nav-links">
-      <a href="index.html">Xiaoyi Guo</a>
-      <a href="current_projects.html">My Projects</a>
+      <a href="index.html">Home</a>
+      <a href="current_projects.html">Projects</a>
     </div>
   </nav>
 
   <div class="container">
-    <h1>Xiaoyi Guo 郭骁毅</h1>
+    <h1>Xiaoyi Guo</h1>
     <p class="muted">PhD Student in Economics, University of St. Gallen</p>
 
     <section id="about">
@@ -106,8 +112,7 @@
         I am a doctoral researcher at the Swiss Institute of Banking and Finance,
         University of St. Gallen. My research focuses on decision theory, behavioral economics, and microeconomics.
       </p>
-
-      <p> You can download my <a href="cv.pdf" target="_blank">CV</a> here.</p>
+      <p>You can download my <a href="cv.pdf" target="_blank">CV</a> here.</p>
     </section>
 
     <section id="research">
@@ -129,29 +134,27 @@
     <section id="education">
       <h2>Education</h2>
       <p><strong>University of St. Gallen</strong><br/>
-        PhD in Economics – since 2025<br/>
+        PhD in Economics (since 2025)<br/>
         Advisor(s): Prof. Dr. Matthias Weber
       </p>
 
       <p><strong>Heidelberg University</strong><br/>
         MSc Analytical Economics (Aug 2024)<br/>
-        Advisor(s): Prof. Dr. Sebastian Ebert and Dr. Giovanni Burro<br/>
+        Advisor(s): Prof. Dr. Sebastian Ebert and Prof. Dr. Giovanni Burro<br/>
         MSc Thesis: Carrot or Stick? Reciprocity under Inequality and Incentives
       </p>
     </section>
 
     <footer>
       &copy; 2025 Xiaoyi Guo. All rights reserved.
-      <div>Visits: <span id="visits-count">—</span></div>
+      <div>Visits: <span id="visits-count">0</span></div>
     </footer>
   </div>
-
 </body>
 <script>
   (function() {
     var el = document.getElementById('visits-count');
     if (!el) return;
-    // Use a stable key based on site hostname and path
     var key = (location.hostname || 'guo-xiaoyi.github.io') + (location.pathname || '/');
     var url = 'https://api.countapi.xyz/hit/' + encodeURIComponent(key);
     fetch(url)
@@ -166,8 +169,8 @@
         }
       })
       .catch(function() {
-        // Leave placeholder on failure
+        el.textContent = '';
       });
   })();
-  </script>
+</script>
 </html>

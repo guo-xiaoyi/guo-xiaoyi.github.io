@@ -3,211 +3,206 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Xiaoyi Guo</title>
+  <title>Current Projects - Xiaoyi Guo</title>
   <style>
     body {
-      font-family: Verdana, Geneva, Tahoma, sans-serif;
+      font-family: "Times New Roman", Times, serif;
       margin: 0;
-      background: #f9f9f9;
-      color: #222;
-    }
-    .container {
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 2em;
+      padding: 0;
+      background: #fff;
+      color: #1a1a1a;
+      line-height: 1.7;
     }
 
-    h1 {
-      text-align: center;
-      margin-bottom: 2em;
-    }
-
-    .project {
-      border-bottom: 1px solid #ddd;
-      padding: 2em 0;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 2em;
-    }
-
-    .project img {
-      max-width: 300px;
-      width: 100%;
-      height: auto;
-      border: 1px solid #ccc;
-      background: white;
-    }
-
-    .project-text {
-      flex: 1;
-      min-width: 280px;
-    }
-
-    .project h2 {
-      margin-top: 0;
-    }
-
-    .downloads a {
-      display: inline-block;
-      margin-right: 1em;
-      margin-top: 0.5em;
-      padding: 0.4em 0.8em;
-      background-color: #00802F;
-      color: white;
-      text-decoration: none;
-      border-radius: 4px;
-      font-size: 0.95em;
-    }
-
-    .downloads a:hover {
-      background-color: #00802F;
-    }
-
-    footer {
-      margin-top: 4em;
-      text-align: center;
-      font-size: 0.9em;
-      color: #999;
-    }
-
-    /* Navbar styling */
     nav {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 1.5rem 2rem 0;
       display: flex;
-      align-items: center;
+      align-items: baseline;
       justify-content: space-between;
-      background-color: #ffffff;
-      border-bottom: 1px solid #ddd;
-      padding: 1em 2em;
-      position: sticky;
-      top: 0;
-      z-index: 100;
+      font-size: 0.95rem;
     }
 
-    .nav-left {
+    .nav-title {
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .nav-links {
       display: flex;
-      align-items: center;
-    }
-
-    .nav-left img {
-      height: 40px;
-      margin-right: 1em;
+      gap: 1.5rem;
     }
 
     .nav-links a {
-      margin-left: 1em;
       text-decoration: none;
-      color: #00802F;
-      font-weight: 500;
+      color: inherit;
     }
 
     .nav-links a:hover {
       text-decoration: underline;
     }
 
+    .container {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 2.5rem 2rem 3rem;
+    }
+
     h1 {
-      border-bottom: 2px solid #ccc;
-      padding-bottom: 0.3em;
+      margin: 0 0 1.5rem;
+      font-size: 2.2rem;
+      font-weight: 600;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 1.35rem;
+      font-weight: 600;
+    }
+
+    .project {
+      margin-top: 2.5rem;
+      display: grid;
+      gap: 1.5rem;
+    }
+
+    .project:first-of-type {
       margin-top: 0;
     }
 
-    section {
-      margin-top: 2em;
+    .project figure {
+      margin: 0;
+    }
+
+    .project img {
+      width: 100%;
+      max-width: 280px;
+      height: auto;
+      display: block;
+    }
+
+    .project-content {
+      display: grid;
+      gap: 0.8rem;
+    }
+
+    .project-note {
+      font-style: italic;
+      color: #555;
+    }
+
+    .project-links a {
+      margin-right: 1.2rem;
+    }
+
+    @media (min-width: 720px) {
+      .project {
+        grid-template-columns: minmax(200px, 240px) 1fr;
+        align-items: start;
+      }
     }
 
     a {
-      color: #00802F;
-      text-decoration: none;
-    }
-
-    a:hover {
+      color: inherit;
       text-decoration: underline;
-    }
-
-    .muted {
-      color: #666;
-      font-size: 0.95em;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 0.2em;
     }
 
     footer {
-      margin-top: 4em;
+      margin-top: 4rem;
       font-size: 0.9em;
-      color: #999;
+      color: #777;
       text-align: center;
     }
   </style>
 </head>
 <body>
-
-  <!-- Navigation bar -->
   <nav>
-    <div class="nav-left">
-      <img src="HSG_Logo_DE_RGB.png" alt="Logo" />
-    </div>
+    <a class="nav-title" href="index.html">Xiaoyi Guo</a>
     <div class="nav-links">
-      <a href="index.html">Xiaoyi Guo</a>
-      <a href="current_projects.html">My Projects</a>
+      <a href="index.html">Home</a>
+      <a href="current_projects.html">Projects</a>
     </div>
   </nav>
 
   <div class="container">
-    <h1>Ongoing projects related to PhD</h1>
+    <h1>Current Projects</h1>
 
-    <!-- Project 1 -->
     <div class="project">
-      <img src="project1.png" alt="Project 1 image">
-      <div class="project-text">
+      <figure>
+        <img src="project1.png" alt="Reference points project illustration" />
+      </figure>
+      <div class="project-content">
         <h2>Evolution of Reference Points over Time</h2>
-        <h3> with Matthias Weber, Enrico de Giorgi, and Andrija Lukovic</h3>
-        <p> The formation and evolution of reference points in a dynamic setting are rare topics in discussions of reference-dependent preferences.  Based on existing theories about the formation of reference points, we conduct a controlled economic experiment on a representative sample. Our aim is to establish a unified framework describing reference points in dynamic settings.
-</p>
-        <div class="downloads">
-          <a href="poster.pdf" download>Poster</a>
-        </div>
-      </div>
-    </div>
-    <!-- Project 2 -->
-        <div class="project">
-      <img src="project2.png" alt="Project 2 image">
-      <div class="project-text">
-        <h2>Correlation Neglect over Intertemporal Decision Making</h2>
-        <h3> with Matthias Weber</h3>
-        <p> Stay tuned for further update!</p>
-        <div class="downloads">
+        <p class="project-note">with Matthias Weber, Enrico de Giorgi, and Andrija Lukovic</p>
+        <p>
+          Reference-dependent preferences rarely consider how reference points evolve in dynamic
+          settings. We run a controlled experiment on a representative sample to build a unified
+          framework that captures how reference points form and adjust over time.
+        </p>
+        <div class="project-links">
+          <a href="poster.pdf" download>Poster (PDF)</a>
         </div>
       </div>
     </div>
 
-    <p> </p>
-    <p> </p>
+    <div class="project">
+      <figure>
+        <img src="project2.png" alt="Correlation neglect project illustration" />
+      </figure>
+      <div class="project-content">
+        <h2>Correlation Neglect in Intertemporal Decisions</h2>
+        <p class="project-note">with Matthias Weber</p>
+        <p>
+          We study how decision makers handle correlation in intertemporal choice. The project is in
+          early stages and more details will follow soon.
+        </p>
+      </div>
+    </div>
 
-    <h1>Side Projects (Doing for Fun/Public Good)</h1>
-        <div class="project">
-      <img src="specialty_diff.jpeg" alt="TDF">
-      <div class="project-text">
+    <h1>Side Projects</h1>
+
+    <div class="project">
+      <figure>
+        <img src="specialty_diff.jpeg" alt="Tour de France data illustration" />
+      </figure>
+      <div class="project-content">
         <h2>Evaluating Home Effect for Professional Cycling</h2>
-        <p> This research is the first in the field trying to comprehensively understand the home effect in professional cycling, based on Tour de France. We use modified causal forests to estimate the home effects of French riders in different stages of Tour de France. The result is that there is a considerable negative home effect for home riders in home stage, and such effect exhibits heterogeneous variations.</p>
-        <div class="downloads">
-          <a href="report_home_effect_CGM.pdf" download>Paper</a>
-          <a href="slides_home_effect_CGM.pdf" download>Slides</a>
+        <p>
+          Using Tour de France data, we estimate home effects for French riders with modified causal forests.
+          The analysis uncovers a negative home effect with meaningful heterogeneity across stages.
+        </p>
+        <div class="project-links">
+          <a href="report_home_effect_CGM.pdf" download>Paper (PDF)</a>
+          <a href="slides_home_effect_CGM.pdf" download>Slides (PDF)</a>
         </div>
       </div>
     </div>
 
-        <div class="project">
-      <img src="cascade.png" alt="TDF">
-      <div class="project-text">
-        <h2><code>coolTree</code>: Enhanced Experimental Interface with More Templates</h2>
-        <p> This is a side project I did to enhance the experimental interface of <code>oTree</code>, which is a Python package for designing and conducting economic experiments. The new version includes more templates for different types of experiments, making it easier for researchers to set up their studies without extensive coding.</p>
-        <p> This project is available on GitHub and is still under development. Stay tuned for updates! :)</p>
-          <div class="downloads">
-
-        </div>
+    <div class="project">
+      <figure>
+        <img src="cascade.png" alt="coolTree interface screenshot" />
+      </figure>
+      <div class="project-content">
+        <h2><code>coolTree</code>: Experimental Interface Extensions</h2>
+        <p>
+          A lightweight revamp of the <code>oTree</code> interface with additional templates for
+          economic experiments. The project is open-source and under active development.
+        </p>
+        <p>
+          Source code and updates are coming soon.
+        </p>
       </div>
     </div>
+
     <footer>
       &copy; 2025 Xiaoyi Guo. All rights reserved.
     </footer>
   </div>
-
 </body>
 </html>
