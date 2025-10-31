@@ -105,7 +105,7 @@
 
   <div class="container">
     <h1>Xiaoyi Guo</h1>
-    <p> <i> How to pronounce my name: </i><a href="https://translate.google.com/?sl=auto&tl=zh-CN&text=%E9%83%AD%E9%AA%81%E6%AF%85&op=translate" target="_blank">[ˈʃaɪ̯oʊ̯i ˈɡwoʊ̯]</a></p>
+    <p> <i> Click to see how to pronounce my name (properly): </i><a href="https://translate.google.com/?sl=auto&tl=zh-CN&text=%E9%83%AD%E9%AA%81%E6%AF%85&op=translate" target="_blank">[ˈʃaɪ̯oʊ̯i ˈɡwoʊ̯]</a></p>
     <p class="muted">PhD Student in Economics, University of St. Gallen</p>
 
     <section id="about">
@@ -122,7 +122,6 @@
       <ul>
         <li>Behavioral finance and intertemporal risk</li>
         <li>Bayesian update and signaling</li>
-        <li>Reference-dependent preferences and decision anomalies</li>
       </ul>
     </section>
 
@@ -148,31 +147,8 @@
     </section>
 
     <footer>
-      &copy; 2025 Xiaoyi Guo. All rights reserved.
-      <div>Visits: <span id="visits-count">0</span></div>
+      &copy; 2025 Xiaoyi Guo. All rights reserved. 
     </footer>
   </div>
 </body>
-<script>
-  (function() {
-    var el = document.getElementById('visits-count');
-    if (!el) return;
-    var key = (location.hostname || 'guo-xiaoyi.github.io') + (location.pathname || '/');
-    var url = 'https://api.countapi.xyz/hit/' + encodeURIComponent(key);
-    fetch(url)
-      .then(function(res) { return res.json(); })
-      .then(function(data) {
-        if (data && typeof data.value === 'number') {
-          try {
-            el.textContent = data.value.toLocaleString();
-          } catch (e) {
-            el.textContent = String(data.value);
-          }
-        }
-      })
-      .catch(function() {
-        el.textContent = '';
-      });
-  })();
-</script>
 </html>
