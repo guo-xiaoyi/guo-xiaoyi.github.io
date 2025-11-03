@@ -53,6 +53,40 @@
       padding: 2.5rem 2rem 3rem;
     }
 
+    .intro {
+      margin: 1.5rem 0 3.2rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 2.5rem;
+      flex-wrap: wrap;
+    }
+
+    .intro-text {
+      flex: 1 1 320px;
+      min-width: 260px;
+    }
+
+    .intro-photo {
+      margin: 0;
+      flex: 0 0 320px;
+    }
+
+    .intro-photo img {
+      width: 100%;
+      height: auto;
+      border-radius: 6px;
+      border: 1px solid #e4e4e4;
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.06);
+    }
+
+    .intro-photo figcaption {
+      margin-top: 0.75rem;
+      font-size: 0.9rem;
+      color: #505050;
+      line-height: 1.5;
+      text-align: right;
+    }
+
     h1 {
       margin: 0 0 1.5rem;
       font-size: 2.2rem;
@@ -92,6 +126,21 @@
       color: #777;
       text-align: center;
     }
+
+    @media (max-width: 720px) {
+      .intro {
+        flex-direction: column;
+      }
+
+      .intro-photo {
+        flex-basis: 100%;
+        max-width: 100%;
+      }
+
+      .intro-photo figcaption {
+        text-align: left;
+      }
+    }
   </style>
 </head>
 <body>
@@ -104,9 +153,19 @@
   </nav>
 
   <div class="container">
-    <h1>Xiaoyi Guo</h1>
-    <p> <i> Click to see how to pronounce my name (properly): </i><a href="https://translate.google.com/?sl=auto&tl=zh-CN&text=%E9%83%AD%E9%AA%81%E6%AF%85&op=translate" target="_blank">[ˈʃaɪ̯oʊ̯i ˈɡwoʊ̯]</a></p>
-    <p class="muted">PhD Student in Economics, University of St. Gallen</p>
+    <div class="intro">
+      <div class="intro-text">
+        <h1>Xiaoyi Guo</h1>
+        <p><i>Click to see how to pronounce my name (properly):</i> <a href="https://translate.google.com/?sl=auto&tl=zh-CN&text=%E9%83%AD%E9%AA%81%E6%AF%85&op=translate" target="_blank">[ˈʃaɪ̯oʊ̯i ˈɡwoʊ̯]</a></p>
+        <p class="muted">PhD Student in Economics, University of St. Gallen</p>
+      </div>
+      <figure class="intro-photo">
+        <img src="opposite_harmony.jpg" alt="Opposite Harmony installation by Tatsuo Miyajima at Museum Brandhorst, photographed by Xiaoyi Guo." />
+        <figcaption>
+          Tatsuo Miyajima, <a href="https://tatsuomiyajima.com/work-projects/opposite-harmony/" target="_blank" rel="noopener">Opposite Harmony</a>. Shot by me at Museum Brandhorst, Munich.
+        </figcaption>
+      </figure>
+    </div>
 
     <section id="about">
       <h2>Bio</h2>
