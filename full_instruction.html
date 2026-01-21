@@ -1,0 +1,291 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Instruction - University of St. Gallen">
+  <meta name="author" content="University of St. Gallen">
+  <link rel="icon" href="/docs/4.0/assets/img/favicons/favicon.ico">
+
+  <title>University of St.Gallen (HSG)</title>
+
+  <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/jumbotron/">
+  <!-- Bootstrap core CSS -->
+  <link href="../../dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Custom styles for this template -->
+  <link href="jumbotron.css" rel="stylesheet">
+  
+  <style>
+      .otree-body{
+        max-width: 1280px;
+    }
+    /* CSS for the framework */
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f5f5f5;
+    }
+    .jumbotron {
+      background-color: #e8e3d9;
+      color: #333;
+      padding: 2rem;
+      margin-bottom: 0;
+      border-radius: 0;
+    }
+    .display-3 {
+      font-weight: 500;
+      margin-bottom: 1.5rem;
+    }
+    .main-container {
+      background-color: white;
+      padding: 2rem 0;
+    }
+    .content-wrapper {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 40px;
+    }
+    .btn-primary {
+      background-color: #007095;
+      border-color: #007095;
+    }
+    .btn-primary:hover {
+      background-color: #005a79;
+      border-color: #005a79;
+    }
+    .university-title {
+      font-size: 3rem;
+      font-weight: 300;
+      margin-bottom: 0.5rem;
+    }
+    .footer {
+      padding: 2rem 0;
+      background-color: #f5f5f5;
+      border-top: 1px solid #e7e7e7;
+      margin-top: 2rem;
+    }
+    h2 {
+      font-weight: 500;
+      color: #333;
+      margin-top: 2rem;
+    }
+    .content-image {
+      width: 100%;
+      height: auto;
+      margin-top: 1rem;
+    }
+    .feature-box {
+      margin-bottom: 2rem;
+    }
+    p {
+      font-size: 18px;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+
+
+    
+    p {
+        margin-bottom: 1em;
+    }
+    
+    /* Definition term styling */
+    .definition-term {
+        position: relative;
+        display: inline-block;
+        background-color: #e8e3d9; /* Light yellow background */
+        padding: 0 4px;
+        border-bottom: 1px dotted #ffc107;
+        cursor: help;
+    }
+    
+    /* Question mark indicator */
+    .definition-term::after {
+        content: "?";
+        display: inline-block;
+        font-size: 0.7em;
+        width: 12px;
+        height: 12px;
+        line-height: 10px;
+        text-align: center;
+        border-radius: 50%;
+        background-color: #ffc107;
+        color: white;
+        margin-left: 0px;
+        position: relative;
+        top: -1px;
+    }
+    
+    /* Tooltip styling */
+    .tooltip {
+        position: absolute;
+        visibility: hidden;
+        width: 250px;
+        background-color: #fff;
+        color: #333;
+        text-align: left;
+        padding: 10px;
+        border-radius: 6px;
+        border: 1px solid #ddd;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        font-size: 0.9em;
+        z-index: 1;
+        bottom: 125%;
+        left: 50%;
+        transform: translateX(-50%);
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+    
+    /* Arrow for tooltip */
+    .tooltip::after {
+        content: "";
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        margin-left: -8px;
+        border-width: 8px;
+        border-style: solid;
+        border-color: #fff transparent transparent transparent;
+        filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.1));
+    }
+    
+    /* Show tooltip on hover and click */
+    .definition-term:hover .tooltip {
+        visibility: visible;
+        opacity: 1;
+    }
+    
+    .tooltip-active {
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+    .center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    }
+  </style>
+</head>
+
+<body>
+  <main role="main">
+    <!-- Main jumbotron for primary marketing message -->
+    <div class="jumbotron">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-8">
+            <h1 class="university-title">Game Instruction 1: Sessions</h1>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="main-container">
+      <div class="content-wrapper">
+        <p>Please read this section carefully. This page includes important information regarding your successful participation, which is crucial for our research and your payment.</p>
+        <h2>Experiment sessions</h2>
+        <p>There are three sessions for the experiment. Each time, you will return via Prolific and open the study link to make decisions. You are currently in Session 1. The first session is long (about 30-45 min), the other two ses-sions are much shorter (about 7-15 min each). Please make sure that you attend all three sessions (only in that case you will receive the full compensation for the three sessions and the extra payment of £10).</p>
+        <div class="feature-box text-center mb-4"></div>
+          <h2>Session Progress</h2>
+          <div style="display: flex; justify-content: center; align-items: center; gap: 20px;">
+            <div>
+              <span style="font-size: 2.5rem; color: #007095; font-weight: bold;">1</span>
+                <div><strong>Current Session</strong></div>
+              <div>about 30-45 minutes</div>
+            </div>
+            <div>
+              <span style="font-size: 2.5rem; color: #ccc; font-weight: bold;">2</span>
+              <div><strong>In 3 Days</strong></div>
+              <div>about 7-15 minutes</div>
+            </div>
+            <div>
+              <span style="font-size: 2.5rem; color: #ccc; font-weight: bold;">3</span>
+              <div><strong>In 6 Days</strong></div>
+              <div>about 7-15 minutes</div>
+            </div>
+          </div>
+          <p class="mt-3">You are currently in <strong>Session 1</strong> of 3.</p>
+
+
+        <h2>AI policy and authenticity check</h2>
+        <p> During this experiment, we will obtain information from Prolific (your email address and demographic infor-mation).</p>
+        <p>If the experiment is interrupted (e.g., due to your device running out of battery), you will be able to resume the study by logging back into the same Prolific account and use the same experiment link. If you encounter any technical difficulties, please contact us immediately via the Prolific internal messaging system. Depending on circumstances, we will arrange other experimental slots for you or directly pay you accordingly.</p>
+        <p>We care about your privacy. Any personal information collected for administrative purposes (e.g., payments, scheduling) will be stored separately from your experimental responses. Your answers in the experiment will be anonymised: direct identifiers are removed and replaced with participant codes so that responses cannot be traced back to you. Data will be stored in accordance with the data protection regulations of the University of St. Gallen and Prolific. The research team will only store the anonymised data after the data collection period has ended. </p>
+        <p>Participation in the study is voluntary, and you may withdraw at any time (implications for payments will be described in information below before starting the decision tasks). By completing this survey, you confirm your willingness and consent to participate in this study.
+                <p>In this experiment, you will see several random payoff trees. Please find an example below. A random payoff tree contains four time periods. The first period is now. The second period is in three days (which is the time of the second session of this experiment). The third period is in six days (the time of the third and last session of this experiment). The fourth period is in nine days (three days after the last session of this experiment).</p>
+
+    <div> <img src= "{{ static 'global/example_risky_prospect.png' }}" alt="Lottery" width="100%"></div>
+
+
+
+    <h3 style="margin-top: 2rem;">Understanding a random payoff tree</h3>
+    <p>In the example, the leftmost time period contains only a sign ‘Start’. This is because the risky payoff tree does not yield any payoff in the current period. In the next column, corresponding to the time period in three days indicated by “In three days (Session 2)”, there are two possible outcomes, ‘+£10’ and ‘-£10’. You can also see a fortune wheel indicating 60% and 40% probabilities (these probabilities are also shown next to the lines from “Start” to the outcomes). This means that there is a 60% probability that you receive £10 in three days. Similarly, there is a 40% probability to reach the outcome ‘-£10’, which means that there is a 40% probability that you will lose £10  (remember that for all outcomes in the random payoff trees, for gains and losses alike, no real money is involved – but please imagine these to be real gains or losses). </p>
+    <p>The fortune wheel is an illustration of the probabilities. If you could spin this fortune wheel once, there would be a 60% probability of the arrow pointing to the blue region when the wheel stops (corresponding to the upper outcome where you gain £10) and a 40% probability of the arrow pointing to the beige region (corresponding to the lower outcome where you lose £10). </p>
+    <p>The outcome in the third period (in six days, when Session 3 will take place) will depend on the outcome at the time of Session 2. If the random outcome at the time of Session 2 is a gain of £10, there will be a gain at the time of Session 3 of £7. Note that this gain comes in addition to the £10 gained at the time of Session 2. If the random outcome at the time of Session 2 is a loss of £10, there will be a loss at the time of Session 3 of £12 (indicated by “-£12”). This loss comes in addition to the loss of £10 at the time of Session 2.</p>
+    <p>Similarly, the outcome in the fourth period (three days after Session 3) will depend on the outcome in the third period (Session 3). If the outcome in the third period is a gain of £7, there will be an 80% chance that the out-come in the last time period will be a gain of £8 (in addition to the outcomes in the earlier time periods) and a 20% chance that there will be no additional gain or loss (indicated by “+£0”). gain at the time of Session 3 of £7. By contrast, if the outcome in the third period (Session 3) is a loss of £12, there will be a 50% chance that the outcome in the last time period will be a gain of £2 (in addition to the outcomes in earlier time periods) and a 50% chance that there will be gain of £5. </p>
+
+
+
+    <h3 style="margin-top: 2rem;">How to Evaluate a random payoff tree</h3>
+    <p> Your main task in this experiment is to evaluate such random payoff trees. We want to know how much money such a random payoff tree would be worth to you. Therefore, we will present you with a series of alternative options. For each option, please indicate whether you would prefer to receive or pay the shown amount or receive the outcomes determined by the random payoff tree. The shown monetary amounts and outcomes are hypo-thetical and do not affect your payment. When you click on “Start evaluation”, you will see a pop-out sidebar as the following:</p>
+    <br> </br>
+    <img src= "otree-assets/_static/global/mcl.png" alt="MPL" width="100%" class="center">
+    <br></br>
+    <p> You do not have to click on each single row in the table. If you make a choice for one row, other rows are filled automatically. Example: if you click on “I would prefer to receive £8”, then automatically all options where you receive more than £8 will also be selected (for comparisons where you would receive less than £8, the option “I would prefer to obtain the outcomes of the random payoff tree” will then automatically be selected). If you click on another field, your choice will be updated. Once the indicated choices correspond to your preferences, click on “Submit”. </p>
+    <br></br>
+    <img src= "otree-assets/_static/global/mcl_chosen.png"  alt="MPLChosen" width="100%" class="center">
+    <br></br>
+    <p> Sometimes, we will ask for more detail. This happens when the table uses larger increments (e.g., £20 steps). In that case, we show a follow-up table with smaller increments to pinpoint your preference. In that case you will see a similar table asking you for more detail regarding your choice, as for instance below:</p>
+     <img src= "otree-assets/_static/global/mcl_refinement.png" alt="MPLChosen" width="100%" class="center">
+    <p>After you click on “Submit”, you will proceed to the next random payoff tree. There are 15 random payoff trees to evaluate in this session (Session 1). When you have submitted a selection, your answer is recorded and you cannot go back and change it.</p>
+    <p>The decisions that you make here do not determine your payment. You are only providing us with insights on how you are valuing the random payoff trees; you will neither actually participate in a random payoff tree nor receive or pay any of the money in the tables in which you indicate your choices. </p>
+        <h2>Sessions</h2>
+        <p>In this first session, you will be asked to evaluate several random payoff trees. At the end of the session, one of these payoff trees will be randomly selected. This selected tree will become your payoff tree. Your subsequent two sessions of the experiment will be only about this selected payoff tree. </p>
+        <p>Please imagine that the outcomes of this payoff tree correspond to actual monetary gains or losses that may occur in the future. Although no real money will be gained or lost, it is important that you make your evaluations as if the outcomes were financially consequential. </p>
+        <p>In the second and third sessions, you will be informed about which random outcomes have been realised, and you will be asked to evaluate the remaining parts of your selected payoff tree.</p>
+
+
+        <h2>Payments</h2>
+        <p>You will receive the following financial reward for filling out the experimental questionnaire carefully and truth-fully. After having completed the first session, you will receive £10. After having completed the second session, you will receive another £5. After having completed the third session, you will receive £5 plus an extra payment of £10. Note that you can only take part in the subsequent sessions if you completed the previous ones. <strong>It is important that you log in to complete these sessions in time, as there is only a 24-hour window for these sessions to start and finish!</strong> Furthermore, if you attend all three sessions and the quality of your responses is deemed sufficiently high, you will participate in a lottery that will award £300 to one participant of the experi-ment.</p>
+
+        <p>To avoid you missing one session, we will send you messages 24 hours and 1 hour before the next session starts. After the session starts, you have 24 hours to complete the session.</p>
+
+        <p>You will not be paid for a session if one of the following applies:</p>
+        <p>a) your submission is rejected following Prolific's automated authenticity checks; or<br>
+        b) you do not complete the session within 24 hours of first opening the session link.</p>
+
+        <p>If your submission is rejected for any session and there are later sessions, you will not be able to take part in those later sessions. In that case, you will also not be eligible for any completion bonus or for entry into the £300 prize draw.</p>
+
+        <strong>Please close this page if you have already understood the instructions and go back to the experimental software.</strong>
+
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-12 text-center">
+          <img src="https://cdn-assets-eu.frontify.com/s3/frontify-enterprise-files-eu/eyJwYXRoIjoidW5pc2dcL2FjY291bnRzXC9kNFwvNDAwMDQwOFwvcHJvamVjdHNcLzEzXC9hc3NldHNcLzU0XC82MjA5XC9mZWU3ZTY4NmY5NmU4OTc1OGI2ZjEyZDY1MDRlMjk4Mi0xNjI1MDc4NzQ2LnBuZyJ9:unisg:fHwFjCnusCPTOHN3vBp9s0I-varvLhe40RmgsvP0Fms?width=2400" alt="University of St. Gallen Logo" style="height: 50px;">
+          <p class="mt-3 text-muted">&copy; 2025 University of St. Gallen. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+  <script src="../../assets/js/vendor/popper.min.js"></script>
+  <script src="../../dist/js/bootstrap.min.js"></script>
+</body>
+</html>
