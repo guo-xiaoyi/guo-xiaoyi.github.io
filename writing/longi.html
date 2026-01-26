@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>oTree + Prolific Longitudinal Study | Xiaoyi Guo</title>
+  <style>
+    body {
+      font-family: "Times New Roman", Times, serif;
+      margin: 0;
+      padding: 0;
+      background: #dddddd;
+      color: #1a1a1a;
+      line-height: 1.7;
+      font-size: 12pt;
+    }
+
+    nav {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 1.5rem 2rem 0;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      font-size: 0.95rem;
+    }
+
+    .nav-title {
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .nav-links a:hover {
+      text-decoration: underline;
+    }
+
+    .container {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 2.5rem 2rem 3.5rem;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 0.2em;
+    }
+
+    h1 {
+      margin: 0 0 0.5rem;
+      font-size: 2.2rem;
+      font-weight: 600;
+    }
+
+    h2 {
+      margin: 2.4rem 0 0.8rem;
+      font-size: 1.35rem;
+      font-weight: 600;
+    }
+
+    h3 {
+      margin: 1.6rem 0 0.6rem;
+      font-size: 1.05rem;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      text-transform: uppercase;
+    }
+
+    .article-meta {
+      color: #555;
+      font-size: 0.95rem;
+      margin-bottom: 1.6rem;
+    }
+
+    .article-lead {
+      font-size: 1.05rem;
+      margin: 0 0 1.8rem;
+    }
+
+    .divider {
+      height: 1px;
+      background: #bdbdbd;
+      margin: 2rem 0;
+    }
+
+    .note {
+      border-left: 3px solid #777;
+      padding-left: 1rem;
+      margin: 1.5rem 0;
+      color: #444;
+    }
+
+    ul {
+      margin: 0;
+      padding-left: 1.1rem;
+    }
+
+    ol {
+      margin: 0;
+      padding-left: 1.4rem;
+    }
+
+    pre {
+      background: #efefef;
+      border: 1px solid #cfcfcf;
+      padding: 1rem;
+      overflow-x: auto;
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    code {
+      font-family: "Courier New", Courier, monospace;
+      font-size: 0.95em;
+    }
+
+    footer {
+      margin-top: 3rem;
+      font-size: 0.9em;
+      color: #777;
+      text-align: center;
+    }
+
+    @media (max-width: 720px) {
+      nav {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+      }
+
+      .container {
+        padding: 2rem 1.5rem 3rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a class="nav-title" href="../index.html">Xiaoyi Guo</a>
+    <div class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../current_projects.html">Projects</a>
+      <a href="../writing.html">My writing</a>
+    </div>
+  </nav>
+
+  <main class="container">
+    <header class="article-header">
+      <h1>How to use oTree + Prolific for a longitudinal study with cumulative progress</h1>
+      <div class="article-meta">January 2026 | Methods note | 9 min read</div>
+      <p class="article-lead">
+        This is a practical blueprint for running repeated waves on Prolific while keeping
+        participant progress and data consistent inside oTree. The goal is simple: recruit once,
+        return the same people, and keep their progress intact without manual fixes.
+      </p>
+    </header>
+
+    <div class="divider"></div>
+
+    <section>
+      <h2>Why this setup works</h2>
+      <p>
+        Longitudinal online experiments are fragile. You need stable identifiers, clean wave
+        scheduling, and a predictable participant flow. oTree is great for structured tasks,
+        while Prolific is best for recruitment and reminders. Together, they can run a study with
+        multiple waves as long as you establish one persistent key and a simple rule for progress.
+      </p>
+      <p>
+        I assume you will invite the same pool back for each wave. If you are using new participants
+        each wave, drop the progress logic and keep only the Prolific integration.
+      </p>
+    </section>
+
+    <section>
+      <h2>Core architecture</h2>
+      <p>Think in three stable layers:</p>
+      <ol>
+        <li>Prolific provides the participant ID and handles recruitment and re-contact.</li>
+        <li>oTree stores a permanent key and wave status in <code>participant.vars</code>.</li>
+        <li>Your data merge uses the Prolific ID plus the oTree participant code.</li>
+      </ol>
+      <div class="note">
+        The minimal persistent key is <code>PROLIFIC_PID</code>. Keep it in every wave. Every other
+        field can be reconstructed if you have that key and the timestamps.
+      </div>
+    </section>
+
+    <section>
+      <h2>Wave planning</h2>
+      <p>Decide three things before you code:</p>
+      <ul>
+        <li>How many waves and how far apart (for example, 4 waves, 2 weeks apart).</li>
+        <li>How you will handle late returners (allow a grace period or close the wave).</li>
+        <li>What constitutes progress (for example, completed wave count or task score).</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>oTree session config</h2>
+      <p>
+        Use one session config per wave, and pass a <code>wave</code> integer. This keeps your data
+        simple and your export tidy.
+      </p>
+      <pre><code># settings.py
+SESSION_CONFIGS = [
+    dict(
+        name="longi_wave_1",
+        display_name="Longitudinal Wave 1",
+        app_sequence=["intro", "task", "survey"],
+        num_demo_participants=5,
+        wave=1,
+    ),
+    dict(
+        name="longi_wave_2",
+        display_name="Longitudinal Wave 2",
+        app_sequence=["intro", "task", "survey"],
+        num_demo_participants=5,
+        wave=2,
+    ),
+]
+</code></pre>
+    </section>
+
+    <section>
+      <h2>Capture the Prolific ID once</h2>
+      <p>
+        Prolific sends <code>PROLIFIC_PID</code> in the URL. In oTree, it appears as
+        <code>participant.label</code>. Save it to <code>participant.vars</code> so it persists.
+      </p>
+      <pre><code># intro/pages.py
+class Intro(Page):
+    def vars_for_template(self):
+        pid = self.participant.label
+        if pid:
+            self.participant.vars["prolific_pid"] = pid
+        return {"prolific_pid": self.participant.vars.get("prolific_pid")}
+</code></pre>
+      <p>
+        This makes the ID available across apps and across waves.
+      </p>
+    </section>
+
+    <section>
+      <h2>Track cumulative progress</h2>
+      <p>
+        Use a single integer that updates at the end of each wave. This is the simplest durable
+        signal that a participant has completed the wave.
+      </p>
+      <pre><code># survey/pages.py
+class Results(Page):
+    def before_next_page(self):
+        completed = self.participant.vars.get("waves_completed", 0)
+        self.participant.vars["waves_completed"] = completed + 1
+</code></pre>
+      <p>
+        If you also need performance scores, store them in <code>participant.vars</code> as a list
+        keyed by wave.
+      </p>
+    </section>
+
+    <section>
+      <h2>Participant flow on Prolific</h2>
+      <ul>
+        <li>Wave 1: recruit with a standard study and save the Prolific IDs.</li>
+        <li>Wave 2+: use a custom allowlist, inviting only IDs from Wave 1.</li>
+        <li>Keep a fixed completion code, and store it in the oTree end page.</li>
+      </ul>
+      <p>
+        This ensures that each wave only admits eligible participants and makes it easy to
+        calculate attrition.
+      </p>
+    </section>
+
+    <section>
+      <h2>Data merge and QA</h2>
+      <p>
+        Merge on both <code>prolific_pid</code> and <code>participant_code</code>. This avoids
+        duplicate rows if a participant starts the same wave twice.
+      </p>
+      <ul>
+        <li>Export oTree wide and long formats after each wave.</li>
+        <li>Keep a simple tracking sheet for invites, starts, and completions.</li>
+        <li>Flag any participant with multiple starts in the same wave.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Common pitfalls</h2>
+      <ul>
+        <li>Not saving the Prolific ID early enough, which breaks the panel link later.</li>
+        <li>Changing app sequences between waves and creating mismatched data fields.</li>
+        <li>Letting a wave remain open while sending new invites, which confuses returners.</li>
+        <li>Relying on completion codes as keys. They are not unique.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Minimal checklist</h2>
+      <ul>
+        <li>Store <code>PROLIFIC_PID</code> in <code>participant.vars</code> on the first page.</li>
+        <li>Define a <code>wave</code> number in the session config.</li>
+        <li>Update <code>waves_completed</code> at the end of each wave.</li>
+        <li>Invite the same IDs through a Prolific allowlist.</li>
+        <li>Merge by both IDs and save wave timestamps.</li>
+      </ul>
+    </section>
+
+    <div class="divider"></div>
+
+    <section>
+      <h2>Resources</h2>
+      <ul>
+        <li><a href="https://www.otree.org/" target="_blank" rel="noopener">oTree documentation</a></li>
+        <li><a href="https://researcher-help.prolific.com/" target="_blank" rel="noopener">Prolific researcher help</a></li>
+        <li><a href="https://www.otreehub.com/" target="_blank" rel="noopener">oTree Hub</a></li>
+      </ul>
+    </section>
+
+    <footer>
+      <a href="../writing.html">Back to writing</a>
+    </footer>
+  </main>
+</body>
+</html>

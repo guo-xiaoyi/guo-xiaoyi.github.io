@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Xiaoyi Guo</title>
+  <style>
+    body {
+      font-family: "Times New Roman", Times, serif;
+      margin: 0;
+      padding: 0;
+      background: #dddddd;
+      color: #1a1a1a;
+      line-height: 1.7;
+      font-size: 12pt;
+    }
+
+    nav {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 1.5rem 2rem 0;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      font-size: 0.95rem;
+    }
+
+    .nav-title {
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .nav-links a:hover {
+      text-decoration: underline;
+    }
+
+    .container {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 2.5rem 2rem 3rem;
+    }
+
+    .intro {
+      margin: 1.5rem 0 3.2rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 2.5rem;
+      flex-wrap: wrap;
+    }
+
+    .intro-text {
+      flex: 1 1 320px;
+      min-width: 260px;
+    }
+
+    .intro-photo {
+      margin: 0;
+      flex: 0 0 320px;
+    }
+
+    .intro-photo img {
+      width: 100%;
+      height: auto;
+      border-radius: 6px;
+      border: 1px solid #e4e4e4;
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.06);
+    }
+
+    .intro-photo figcaption {
+      margin-top: 0.75rem;
+      font-size: 0.9rem;
+      color: #505050;
+      line-height: 1.5;
+      text-align: right;
+    }
+
+    h1 {
+      margin: 0 0 1.5rem;
+      font-size: 2.2rem;
+      font-weight: 600;
+    }
+
+    h2 {
+      margin: 2.5rem 0 1rem;
+      font-size: 1.35rem;
+      font-weight: 600;
+    }
+
+    section + section {
+      margin-top: 2.5rem;
+    }
+
+    ul {
+      margin: 0;
+      padding-left: 1.1rem;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 0.2em;
+    }
+
+    .muted {
+      color: #555;
+      font-size: 0.95em;
+    }
+
+    footer {
+      margin-top: 4rem;
+      font-size: 0.9em;
+      color: #777;
+      text-align: center;
+    }
+
+    @media (max-width: 720px) {
+      .intro {
+        flex-direction: column;
+      }
+
+      .intro-photo {
+        flex-basis: 100%;
+        max-width: 100%;
+      }
+
+      .intro-photo figcaption {
+        text-align: left;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a class="nav-title" href="index.html">Xiaoyi Guo 郭骁毅</a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="current_projects.html">Projects</a>
+      <a href="writing.html">My writing</a>
+    </div>
+  </nav>
+
+
+    <section id="about">
+      <h2>Writing</h2>
+      <p>
+        I write about experimental design, economic thought analysis, and other non-academic topics. You may find sometimes there are articles you have read before but disappeared, this is because I occasionally clean up my writings and this is fore sure not Mandela effect.
+      </p>
+        <ul>
+            <li><a href="writing/longi.html">How to use oTree + Prolific to conduct a longitudinal study with cumulative progresses</a> </li>
+            <li><a href="writing/dongbei.html">Understanding my hometown region and my family ``Dongbei''.</a></li>
+        </ul>
+    </section>
+
+</body>
+</html>
