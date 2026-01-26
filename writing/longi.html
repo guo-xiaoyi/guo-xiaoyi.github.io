@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>oTree + Prolific Longitudinal Study | Xiaoyi Guo</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" />
   <style>
     body {
       font-family: "Times New Roman", Times, serif;
@@ -12,7 +13,7 @@
       background: #dddddd;
       color: #1a1a1a;
       line-height: 1.7;
-      font-size: 12pt;
+      font-size: 14pt;
     }
 
     nav {
@@ -125,7 +126,7 @@
     }
 
     code {
-      font-family: "Courier New", Courier, monospace;
+      font-family: "Menlo", Menlo, monospace;
       font-size: 0.95em;
     }
 
@@ -161,8 +162,8 @@
 
   <main class="container">
     <header class="article-header">
-      <h1>How to use oTree + Prolific for a longitudinal study with cumulative progress</h1>
-      <div class="article-meta">January 2026 | Methods note | 9 min read</div>
+      <h1>How to use oTree + Prolific for a longitudinal study with cumulative progress (for beginners)</h1>
+      <div class="article-meta">January 2026 | Methods note </div>
       <p class="article-lead">
         This is a practical blueprint for running repeated waves on Prolific while keeping
         participant progress and data consistent inside oTree. The goal is simple: recruit once,
@@ -192,134 +193,173 @@
       <ol>
         <li>Prolific provides the participant ID and handles recruitment and re-contact.</li>
         <li>oTree stores a permanent key and wave status in <code>participant.vars</code>.</li>
-        <li>Your data merge uses the Prolific ID plus the oTree participant code.</li>
+        <li>You use a permanent link (and key) to identify the participant across waves.</li>
       </ol>
       <div class="note">
-        The minimal persistent key is <code>PROLIFIC_PID</code>. Keep it in every wave. Every other
-        field can be reconstructed if you have that key and the timestamps.
+        The minimal persistent key is <code>PROLIFIC_PID</code>. Keep it in every wave. This is because
+        when you create a new session of oTree and you deliver it via Prolific, as long as you properly
+        pass the Prolific ID in the URL, oTree will always have access to it via <code>participant.label</code>.
       </div>
     </section>
 
-    <section>
-      <h2>Wave planning</h2>
-      <p>Decide three things before you code:</p>
-      <ul>
-        <li>How many waves and how far apart (for example, 4 waves, 2 weeks apart).</li>
-        <li>How you will handle late returners (allow a grace period or close the wave).</li>
-        <li>What constitutes progress (for example, completed wave count or task score).</li>
-      </ul>
-    </section>
+    <h2>Implementation details</h2>
+    <p>
+      I recommend you to deploy a longitudinal study (in several waves) into one study, instead of several studies.
+      Because it is easier for you to manage one study on oTree in terms of merging data
+      with each other. However, if you are indifferent to merging different dataframes, and you do not need to save the current
+      participant progress, then you can also create separate studies for each wave.
+      However, if you need a cumulative progress (i.e., participants first waves' reponses will determine on later waves' tasks),
+      then you have to use one single study for all waves. This is especially useful for designs involving experience accumulation,
+      learning tasks, and intertemporal choices.
+    </p>
+    <p>
+      To implement this, you need proper cooperation among Prolific, oTree, and Heroku. Since this is a tutorial for beginners,
+      I will follow Dallas' blog post <a href="https://dallasnova.rbind.io/post/running-otree-on-prolific-for-beginners/" target="_blank" rel="noopener">Integrating oTree with Prolific</a>
+      as a basis.
+    </p>
 
-    <section>
-      <h2>oTree session config</h2>
-      <p>
-        Use one session config per wave, and pass a <code>wave</code> integer. This keeps your data
-        simple and your export tidy.
-      </p>
-      <pre><code># settings.py
-SESSION_CONFIGS = [
-    dict(
-        name="longi_wave_1",
-        display_name="Longitudinal Wave 1",
-        app_sequence=["intro", "task", "survey"],
-        num_demo_participants=5,
-        wave=1,
-    ),
-    dict(
-        name="longi_wave_2",
-        display_name="Longitudinal Wave 2",
-        app_sequence=["intro", "task", "survey"],
-        num_demo_participants=5,
-        wave=2,
-    ),
-]
-</code></pre>
-    </section>
+    <h2>oTree side</h2>
+    <p>
+      You have to make sure you oTree code work perfectly, needless to say. One thing you have to consider is <strong>timing your experiment</strong>. This is to say, to deal with a longitudinal study, you should imagine your study as a single-session game with multiple rounds. However, between rounds, there is a long break (e.g., a week). Especially, when you run this on Prolific, you should not expect everyone starts simultaneously. So an optimal strategy is to write functions such that when a participant reaches a bridge point (i.e., the end of a wave), this function checks the current timestamp and creates a next available wave for this participant. That is, after a certain date, this page will be automatically proceeded to the next wave. Before that date, the participant will still see this bridge page. This way, you do not need to manually intervene to manage who can join the next wave. To do this, you shall first define which are the rounds for each wave. For example, you may identify round numbers in <code>Constants</code> so that oTree when should it schedule the next wave.
+    </p>
 
-    <section>
-      <h2>Capture the Prolific ID once</h2>
-      <p>
-        Prolific sends <code>PROLIFIC_PID</code> in the URL. In oTree, it appears as
-        <code>participant.label</code>. Save it to <code>participant.vars</code> so it persists.
-      </p>
-      <pre><code># intro/pages.py
-class Intro(Page):
-    def vars_for_template(self):
-        pid = self.participant.label
-        if pid:
-            self.participant.vars["prolific_pid"] = pid
-        return {"prolific_pid": self.participant.vars.get("prolific_pid")}
+    <p>
+      To be specific, you define a static method in the last page of each wave that:
+    </p>
+    <pre><code class="language-python">@staticmethod
+    def before_next_page(player, timeout_happened):
+    store_cutoff_choice(player, choice_lottery)
+    if player.round_number == Constants.initial_evaluation_rounds:
+        schedule_session_start(
+            player,
+            prefix='session2',
+            wait_seconds=15, #Set to your desired time (in seconds).
+            future_round=Constants.continuation_rounds[0], # the first round of the next wave
+        )
 </code></pre>
       <p>
-        This makes the ID available across apps and across waves.
+        Here, the function <code>schedule_session_start</code> is a custom function that you write to check the current time
+        and set the next available wave for this participant.
       </p>
-    </section>
-
-    <section>
-      <h2>Track cumulative progress</h2>
       <p>
-        Use a single integer that updates at the end of each wave. This is the simplest durable
-        signal that a participant has completed the wave.
+        Here is an example of <code>schedule_session_start</code>:
       </p>
-      <pre><code># survey/pages.py
-class Results(Page):
-    def before_next_page(self):
-        completed = self.participant.vars.get("waves_completed", 0)
-        self.participant.vars["waves_completed"] = completed + 1
+      <pre><code class="language-python">
+def schedule_session_start(player, prefix, wait_seconds, future_round):
+    """Store the scheduled start time for the next session and propagate it."""
+    participant = player.participant
+    existing_ts = participant.vars.get(f'{prefix}_start')
+    existing_readable = participant.vars.get(f'{prefix}_start_readable')
+    if existing_ts is not None:
+        if existing_readable is None:
+            try:
+                existing_readable = datetime.fromtimestamp(existing_ts).strftime('%A, %B %d')
+            except (TypeError, OSError, ValueError):
+                existing_readable = None
+        setattr(player, f'{prefix}_start', existing_ts)
+        if existing_readable is not None:
+            setattr(player, f'{prefix}_start_readable', existing_readable)
+            participant.vars[f'{prefix}_start_readable'] = existing_readable
+        if future_round and future_round <= Constants.num_rounds:
+            future_player = player.in_round(future_round)
+            setattr(future_player, f'{prefix}_start', existing_ts)
+            if existing_readable is not None:
+                setattr(future_player, f'{prefix}_start_readable', existing_readable)
+        return existing_ts, existing_readable
+
+    t = datetime.now() + timedelta(seconds=wait_seconds)
+    start_ts = t.timestamp()
+    readable = t.strftime('%A, %B %d')
+    setattr(player, f'{prefix}_start', start_ts)
+    setattr(player, f'{prefix}_start_readable', readable)
+    participant.vars[f'{prefix}_start'] = start_ts
+    participant.vars[f'{prefix}_start_readable'] = readable
+    if future_round and future_round <= Constants.num_rounds:
+        future_player = player.in_round(future_round)
+        setattr(future_player, f'{prefix}_start', start_ts)
+        setattr(future_player, f'{prefix}_start_readable', readable)
+    return start_ts, readable
 </code></pre>
-      <p>
-        If you also need performance scores, store them in <code>participant.vars</code> as a list
-        keyed by wave.
-      </p>
-    </section>
+<p> If you do not need the feature that for different sessions, you share a different start time, you can simplify the function by removing the propagation logic.</p>
 
-    <section>
-      <h2>Participant flow on Prolific</h2>
-      <ul>
-        <li>Wave 1: recruit with a standard study and save the Prolific IDs.</li>
-        <li>Wave 2+: use a custom allowlist, inviting only IDs from Wave 1.</li>
-        <li>Keep a fixed completion code, and store it in the oTree end page.</li>
-      </ul>
-      <p>
-        This ensures that each wave only admits eligible participants and makes it easy to
-        calculate attrition.
-      </p>
-    </section>
+<p>After you have prepared them, we have to implement the logic for the bridging page. This is an example:</p>
+    <pre><code class="language-python">class BridgeSession2(Page):
+    @staticmethod
+    def is_displayed(player):
+        return should_show_bridge(player, Constants.continuation_rounds[0], 'session2')
 
-    <section>
-      <h2>Data merge and QA</h2>
-      <p>
-        Merge on both <code>prolific_pid</code> and <code>participant_code</code>. This avoids
-        duplicate rows if a participant starts the same wave twice.
-      </p>
-      <ul>
-        <li>Export oTree wide and long formats after each wave.</li>
-        <li>Keep a simple tracking sheet for invites, starts, and completions.</li>
-        <li>Flag any participant with multiple starts in the same wave.</li>
-      </ul>
-    </section>
+    @staticmethod
+    def vars_for_template(player):
+        return build_bridge_context(player, current_session=1, next_session=2, prefix='session2')
+</code></pre>
 
-    <section>
-      <h2>Common pitfalls</h2>
-      <ul>
-        <li>Not saving the Prolific ID early enough, which breaks the panel link later.</li>
-        <li>Changing app sequences between waves and creating mismatched data fields.</li>
-        <li>Letting a wave remain open while sending new invites, which confuses returners.</li>
-        <li>Relying on completion codes as keys. They are not unique.</li>
-      </ul>
-    </section>
+<p>
+  Here, the function <code>should_show_bridge</code> checks whether the current time is before the scheduled start time for the next wave. If so, the bridge page is displayed. The function <code>build_bridge_context</code> prepares the context variables for the bridge page template, such as the scheduled start time. The function <code>build_bridge_context</code> is defined when you create the bridge page template.
+</p>
 
-    <section>
-      <h2>Minimal checklist</h2>
-      <ul>
-        <li>Store <code>PROLIFIC_PID</code> in <code>participant.vars</code> on the first page.</li>
-        <li>Define a <code>wave</code> number in the session config.</li>
-        <li>Update <code>waves_completed</code> at the end of each wave.</li>
-        <li>Invite the same IDs through a Prolific allowlist.</li>
-        <li>Merge by both IDs and save wave timestamps.</li>
-      </ul>
-    </section>
+<pre><code class="language-python">
+def should_show_bridge(player, expected_round, prefix):
+    """Return True when the participant should remain on the bridge page."""
+    if player.round_number != expected_round:
+        return False
+    start_ts, _ = get_session_start_info(player, prefix)
+    if start_ts is None:
+        return False
+    return time.time() < start_ts
 
+
+def build_bridge_context(player, current_session, next_session, prefix):
+    """Prepare template data shared by both bridge pages."""
+    start_ts, readable = get_session_start_info(player, prefix)
+    return {
+        'this_session': current_session,
+        'next_session': next_session,
+        'wait_timestamp': start_ts,
+        'wait_readable': readable,
+        'server_timestamp': time.time(),
+    }
+
+</code></pre>
+
+<p>
+  Other setups, such as passing Prolific IDs via URL parameters, remain the same as in Dallas' blog post (and also the most practiced way).
+</p>
+
+<h2>Heroku Side</h2>
+<p>
+  I recommend everyone to use Heroku + oTree Hub for hosting oTree studies. The main reason is that Heroku provides a stable and scalable environment for running web applications, which is essential for online experiments. oTree Hub really simplifies the deployment process, making it easier for beginners to get started without worrying about server configurations. Back in the day, I had to manually set up servers, which was time-consuming and error-prone. With Heroku + oTree Hub, I can focus more on designing experiments rather than dealing with technical issues. If you are a student, you can also claim free Heroku credits through GitHub Student Developer Pack.
+</p>
+
+<p>
+  I do not recommend you using oTree HR to host your longitudinal study through Prolific. This is because HR is mainly designed for simple studies with one-time participation.
+</p>
+
+<p>
+  You need a few setups for Heroku. First, you have to consider that you need to maintain your study for a long time, so you should choose a plan that offers sufficient uptime and resources. One important thing is that you need to choose the correct Dyno. The most common choice is the basic or the standard dyno (depending on your budget and access demand). However, you should not choose the Eco Dyno. This is because Eco Dynos sleep after 30 minutes of inactivity, which can disrupt participant sessions and lead to data loss. In contrast, basic and standard dynos remain active, ensuring a smoother experience for participants. <a href="https://devcenter.heroku.com/articles/dyno-sizes" target="_blank" rel="noopener">Here</a> is some more information about Dynos.
+</p>
+
+<p>
+  I want to write a bit more regarding server loading. If you expect a large number of participants to join your study simultaneously (e.g., during peak hours or specific recruitment windows), you might want to consider using higher dynos to handle the load. This can help prevent server slowdowns or crashes, ensuring a smoother experience for participants. However, for most longitudinal studies with staggered participation, the Standard 1X dyno should suffice. If you really expect high traffice, you should consider to deploy your own server or use the Performance Dyno, and always use the oTree's automatic robot feature <a href="https://otree.readthedocs.io/en/latest/misc/bots_advanced.html#bots-advanced" target="_blank" rel="noopener">(here)</a> to stress test your current subscription on Heroku. I do think most of the researchers do not need to go this far.
+</p>
+
+
+<h2>Prolific Side</h2>
+<p>
+  One has to admit that Prolific is really user-friendly for running online experiments. The main reason is that Prolific provides a stable and scalable platform for recruiting participants, which is essential for online experiments. Prolific also offers various features that make it easy to manage studies, such as participant screening, payment processing, and data export. I want to thank Jodie from Prolific for reading my super long mails and bounces back with useful suggestions really quickly. Most of the techniques here may not be new, but you have to consider the whole pipeline.
+</p>
+
+
+<p>
+  Prolific now has a new feature called "Project". I recommend you to use this feature to manage your longitudinal study. This allows all participants see how many waves are remaining, and can use one single link to join all waves. 
+</p>
+
+<p>
+  Everyone knows that Prolific can pass URL parameters to oTree. You have to make sure you always pass the <code>participant_label</code> parameter to oTree. This is crucial for maintaining participant identity across waves. In each wave, you should use the same Prolific ID to ensure that oTree can correctly identify returning participants and retrieve their progress from previous waves. Check Dallas' blog post for more details on how to set this up. Prolific can also pass <code>STUDY_ID</code> and <code>SESSION_ID </code> if you include them in the URL, but oTree won't use those unless you store them yourself.
+</p>
+
+<p>
+  Prolific also offers a full guide on running longitudinal studies <a href="https://researcher-help.prolific.com/en/articles/445174-how-do-i-set-up-a-longitudinal-multi-part-study" target="_blank" rel="noopener">here</a>. This is a must-read for everyone who wants to run longitudinal studies on Prolific. The key idea is that you should set up the follow-up waves as separate studies in advance. The study URL should remain the same (because they get back from where they leave). You should recruit all participants in the first wave, and then use Prolific's re-contact feature to invite them back for subsequent waves. This way, you can ensure that the same participants are involved throughout the study.
+</p>
     <div class="divider"></div>
 
     <section>
@@ -335,5 +375,9 @@ class Results(Page):
       <a href="../writing.html">Back to writing</a>
     </footer>
   </main>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>
+    hljs.highlightAll();
+  </script>
 </body>
 </html>
