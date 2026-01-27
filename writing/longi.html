@@ -177,9 +177,7 @@
       <h2>Why this setup works</h2>
       <p>
         Longitudinal online experiments are fragile. You need stable identifiers, clean wave
-        scheduling, and a predictable participant flow. oTree is great for structured tasks,
-        while Prolific is best for recruitment and reminders. Together, they can run a study with
-        multiple waves as long as you establish one persistent key and a simple rule for progress.
+        scheduling, and a predictable participant flow. This short article introduces how to combine oTree setup with Prolific features to achieve this.
       </p>
       <p>
         I assume you will invite the same pool back for each wave. If you are using new participants
@@ -205,9 +203,8 @@
     <h2>Implementation details</h2>
     <p>
       I recommend you to deploy a longitudinal study (in several waves) into one study, instead of several studies.
-      Because it is easier for you to manage one study on oTree in terms of merging data
-      with each other. However, if you are indifferent to merging different dataframes, and you do not need to save the current
-      participant progress, then you can also create separate studies for each wave.
+      This is because it is easier for you to manage one study on oTree in terms of merging data
+      with each other. If you do not need to track cumulative progress, and you are fine with merging different dataframes, it is fine to depoloy multiple studies on oTree.
       However, if you need a cumulative progress (i.e., participants first waves' reponses will determine on later waves' tasks),
       then you have to use one single study for all waves. This is especially useful for designs involving experience accumulation,
       learning tasks, and intertemporal choices.
@@ -294,7 +291,8 @@ def schedule_session_start(player, prefix, wait_seconds, future_round):
 </code></pre>
 
 <p>
-  Here, the function <code>should_show_bridge</code> checks whether the current time is before the scheduled start time for the next wave. If so, the bridge page is displayed. The function <code>build_bridge_context</code> prepares the context variables for the bridge page template, such as the scheduled start time. The function <code>build_bridge_context</code> is defined when you create the bridge page template.
+  <code>should_show_bridge</code> keeps participants on the bridge page until the scheduled start time, while
+  <code>build_bridge_context</code> supplies the template with timing variables for display.
 </p>
 
 <pre><code class="language-python">
@@ -342,10 +340,14 @@ def build_bridge_context(player, current_session, next_session, prefix):
   I want to write a bit more regarding server loading. If you expect a large number of participants to join your study simultaneously (e.g., during peak hours or specific recruitment windows), you might want to consider using higher dynos to handle the load. This can help prevent server slowdowns or crashes, ensuring a smoother experience for participants. However, for most longitudinal studies with staggered participation, the Standard 1X dyno should suffice. If you really expect high traffice, you should consider to deploy your own server or use the Performance Dyno, and always use the oTree's automatic robot feature <a href="https://otree.readthedocs.io/en/latest/misc/bots_advanced.html#bots-advanced" target="_blank" rel="noopener">(here)</a> to stress test your current subscription on Heroku. I do think most of the researchers do not need to go this far.
 </p>
 
+<p>
+  Finally, if you are really unsure about how your participation flow will have an impact on your server, you can set on the Prolific that only a limited number of participants can join at the same time. This can help you manage server load and ensure a better experience for participants.
+</p>
+
 
 <h2>Prolific Side</h2>
 <p>
-  One has to admit that Prolific is really user-friendly for running online experiments. The main reason is that Prolific provides a stable and scalable platform for recruiting participants, which is essential for online experiments. Prolific also offers various features that make it easy to manage studies, such as participant screening, payment processing, and data export. I want to thank Jodie from Prolific for reading my super long mails and bounces back with useful suggestions really quickly. Most of the techniques here may not be new, but you have to consider the whole pipeline.
+  One has to admit that Prolific is really user-friendly for running online experiments. There is not much to say from the Prolific side. But I want to thank Jodie from Prolific for reading my super long mails and bounced back with very useful suggestions really quickly. Most of the techniques here may not be new, but you have to consider the whole pipeline.
 </p>
 
 

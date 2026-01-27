@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Country Roads, Take Me Home | Xiaoyi Guo</title>
+  <style>
+    body {
+      font-family: "Times New Roman", Times, serif;
+      margin: 0;
+      padding: 0;
+      background: #dddddd;
+      color: #1a1a1a;
+      line-height: 1.7;
+      font-size: 12pt;
+    }
+
+    nav {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 1.5rem 2rem 0;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      font-size: 0.95rem;
+    }
+
+    .nav-title {
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .nav-links a:hover {
+      text-decoration: underline;
+    }
+
+    .container {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 2.5rem 2rem 3.5rem;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 0.2em;
+    }
+
+    h1 {
+      margin: 0 0 0.5rem;
+      font-size: 2.2rem;
+      font-weight: 600;
+    }
+
+    h2 {
+      margin: 2.4rem 0 0.8rem;
+      font-size: 1.35rem;
+      font-weight: 600;
+    }
+
+    h3 {
+      margin: 1.6rem 0 0.6rem;
+      font-size: 1.05rem;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      text-transform: uppercase;
+    }
+
+    h4 {
+      margin: 1.2rem 0 0.4rem;
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      text-transform: uppercase;
+    }
+
+    .article-meta {
+      color: #555;
+      font-size: 0.95rem;
+      margin-bottom: 1.6rem;
+    }
+
+    .article-lead {
+      font-size: 1.05rem;
+      margin: 0 0 1.8rem;
+    }
+
+    .divider {
+      height: 1px;
+      background: #bdbdbd;
+      margin: 2rem 0;
+    }
+
+    .note {
+      border-left: 3px solid #777;
+      padding-left: 1rem;
+      margin: 1.5rem 0;
+      color: #444;
+    }
+
+    .panel {
+      background: #efefef;
+      border: 1px solid #cfcfcf;
+      border-radius: 12px;
+      padding: 1rem 1.2rem;
+      margin: 1.2rem 0;
+    }
+
+    .kpi {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.75rem;
+      margin: 0.8rem 0 0;
+    }
+
+    .kpi div {
+      background: #f9f9f9;
+      border: 1px solid #d7d7d7;
+      border-radius: 10px;
+      padding: 0.65rem 0.75rem;
+    }
+
+    .kpi b {
+      display: block;
+      font-size: 0.9rem;
+      color: #555;
+      font-weight: 600;
+      margin-bottom: 0.2rem;
+    }
+
+    ul {
+      margin: 0;
+      padding-left: 1.1rem;
+    }
+
+    ol {
+      margin: 0;
+      padding-left: 1.4rem;
+    }
+
+    pre {
+      background: #efefef;
+      border: 1px solid #cfcfcf;
+      padding: 1rem;
+      overflow-x: auto;
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    code {
+      font-family: "Courier New", Courier, monospace;
+      font-size: 0.95em;
+    }
+
+    .small {
+      color: #555;
+      font-size: 0.95rem;
+    }
+
+    .hr {
+      height: 1px;
+      background: #bdbdbd;
+      margin: 2rem 0;
+    }
+
+    .tag {
+      display: inline-block;
+      font-size: 0.8rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+      border: 1px solid #cfcfcf;
+      background: #f9f9f9;
+      color: #555;
+      margin-right: 0.4rem;
+      margin-bottom: 0.4rem;
+    }
+
+    footer {
+      margin-top: 3rem;
+      font-size: 0.9em;
+      color: #777;
+      text-align: center;
+    }
+
+    @media (max-width: 720px) {
+      nav {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+      }
+
+      .container {
+        padding: 2rem 1.5rem 3rem;
+      }
+
+      .kpi {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a class="nav-title" href="../index.html">Xiaoyi Guo</a>
+    <div class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../current_projects.html">Projects</a>
+      <a href="../writing.html">My writing</a>
+    </div>
+  </nav>
+
+  <main class="container">
+    <header class="article-header">
+      <h1>Country Roads, Take Me Home: Evaluating Home Effect in the Tour de France</h1>
+      <div class="article-meta">May 2025 | Toy project | 15 min read </div>
+      <p class="article-lead">
+        This was a fun project derived from my phd microeconoometrics course. I am thankful to my "coauthors": Eren Cerik and Angelo Mimmo. I also want to thank Prof. Michael Lechner and Ana Armendariz for their ideas and comments. We planned to submit this work to European Association of Sport Economics, but eventually we did not. I took most of the guilty because of procastination. Anyways, this would be a good talk to show how to use econometrics to answer interesting questions with publicly available data.
+      </p>
+
+      <p>Read the paper: <a href="../report_home_effect_CGM.pdf" download>PDF</a></p>
+      <p>Get the presentation slides: <a href="../slides_home_effect_CGM.pdf" download>PDF</a></p>
+    </header>
+
+    <div class="divider"></div>
+
+    <div class="panel">
+
+      <p>
+        The usual "home advantage" story is built on team sports: crowd support, travel fatigue for visitors, referee bias,
+        familiarity with a venue, and so on. Road cycling is not so clear for that framework: it is individual performance inside
+        team tactics, the "venue" moves all the time, and crowds line public roads rather than fixed stadiums.
+      </p>
+      <p>
+        The core question here is: when a Tour de France stage takes place in a rider's home country (county),
+        does that rider become more likely to perform well in that stage - or less?
+      </p>
+
+      <div class="kpi">
+        <div>
+          <b>Main estimate (ATE)</b>
+          -4.1 percentage points in Top-15 probability when racing in the rider's home country
+        </div>
+        <div>
+          <b>Interpretation</b>
+          "Home" is, on average, performance-reducing rather than performance-boosting
+        </div>
+        <div>
+          <b>Common support</b>
+          83.64% overlap in propensity-score distributions; 1,261 observations removed outside overlap
+        </div>
+        <div>
+          <b>Heterogeneity</b>
+          ~10% of individualized effects are positive; the rest skew negative with meaningful dispersion
+        </div>
+      </div>
+
+    </div>
+
+    <section>
+      <h2>1) Why the Tour de France is a special "home advantage" case</h2>
+      <p>
+        The Tour is a 21-24 day, ~3,500km stage race with heterogeneous terrain (flats, hills, mountains, time trials) and
+        heavy strategic interaction inside teams. Not all riders are trying to "win the day" every stage. Many riders play
+        roles: protecting the team leader, controlling breakaways, pacing climbs, or sacrificing their own ranking for a
+        captain's overall position.
+      </p>
+      <p>
+        That matters for identification because "performance" is not a single-dimensional effort outcome. A rider can be
+        "good" yet intentionally give up stage rank. The paper chooses a concrete metric tightly linked to incentives in the
+        professional cycling labor market: whether the rider finishes in the Top 15 of a stage. Top-15 stage results generate
+        UCI points and visibility, which can feed into contract renewals and future bargaining.
+      </p>
+    </section>
+
+    <section>
+      <h2>2) Data construction and the key variables</h2>
+
+      <h3>Sample</h3>
+      <ul>
+        <li>Tour de France men's stages, 2020-2024.</li>
+        <li>Primary source: ProCyclingStats (PCS), with supplementary pulls due to missing or inconsistent fields.</li>
+        <li>Final dataset after cleaning retains 14,639 observations (from 14,744 originally mentioned in the text).</li>
+      </ul>
+
+      <h3>Outcome: "high performance"</h3>
+      <p>
+        <b>Top15</b> is a binary indicator: 1 if a rider finishes within the top 15 in a stage; 0 otherwise.
+        With ~170-180 starters per stage, Top 15 targets a meaningful right-tail performance event rather than small rank noise.
+      </p>
+
+      <h3>Treatment: "home rider"</h3>
+      <p>
+        <b>Rider home-country indicator</b>: equals 1 if the stage's country matches the rider's nationality.
+        Conceptually, this is the "home" environment most likely to matter in a road-race context: language, cultural salience,
+        media attention, and crowd identification.
+      </p>
+
+      <h3>Controls</h3>
+      <p>
+        The empirical design relies on a selection-on-observables assumption, so the control set is intentionally broad:
+      </p>
+      <ul>
+        <li><b>Tour features</b>: year indicators; progress through the Tour (share completed), capturing fatigue and selection as riders drop out.</li>
+        <li><b>Rider features</b>: BMI, age, prior-year PCS points (proxy for rider quality and recent success), captain status, and specialization profiles.</li>
+        <li><b>Team features</b>: team strength proxied by the sum of riders' PCS points in the previous year.</li>
+        <li><b>Stage features</b>: distance; whether the stage is a road race vs. time trial; route "profile" categories (flat / hilly / mountain variants).</li>
+        <li><b>Interactions of rider-stage fit</b>:
+          <ul>
+            <li>Time-trial specialist x time-trial stage match.</li>
+            <li>Rider specialty x profile match for current stage; plus matches for previous and next stages (to capture energy expenditure or conservation incentives across adjacent days).</li>
+          </ul>
+        </li>
+      </ul>
+
+      <h3>A novel "familiarity" control: area knowledge</h3>
+      <p>
+        The paper tries to separate "country-level home salience" from "route familiarity" by geocoding rider birthplaces and stage
+        start/end points, then computing driving distances. An <b>area knowledge</b> indicator is set to 1 if either the start or end
+        of the stage is within 150km of the rider's birthplace.
+      </p>
+
+      <h3>A second "home" channel: team home country</h3>
+      <p>
+        Teams have national registrations that reflect sponsorship and licensing structures. A control indicator flags whether the
+        stage country matches the team's country. This aims to avoid conflating "rider is at home" with "team is at home," since
+        the latter could influence media obligations, sponsor activation, and internal incentives.
+      </p>
+    </section>
+
+    <section>
+      <h2>3) Identification and estimation strategy</h2>
+
+      <h3>Target estimand</h3>
+      <p>
+        The estimand is the causal effect of being a home rider on the probability of achieving a Top-15 stage finish.
+        Formally, the paper frames this with potential outcomes <code>Y(1)</code> and <code>Y(0)</code>, and treatment <code>D</code>.
+      </p>
+
+      <h3>Assumptions (as stated)</h3>
+      <div class="panel">
+        <p><b>Assumption 1 - Conditional Independence (selection on observables)</b></p>
+        <p class="small">
+          Potential outcomes are independent of treatment assignment conditional on observed covariates (and fixed effects / controls).
+          Practically: once you condition on the rich rider/team/stage controls (including match indicators and area knowledge), "home"
+          is treated as as-good-as random.
+        </p>
+
+        <p><b>Assumption 2 - Common support / overlap</b></p>
+        <p class="small">
+          For any covariate profile considered, there is a positive probability of being treated and untreated. The paper checks this via
+          propensity scores and trims to the overlap region. Reported overlap is 83.64%; 1,261 observations are removed.
+        </p>
+
+        <p><b>Assumption 3 - SUTVA</b></p>
+        <p class="small">
+          A rider's potential outcome depends only on that rider's own treatment assignment (no interference). In cycling, this is a strong
+          assumption because riders interact; the paper proceeds with the standard formulation.
+        </p>
+      </div>
+
+      <h3>Main estimator: Modified Causal Forest (MCF)</h3>
+      <p>
+        The workhorse estimator is MCF (Lechner). The appeal in this setting is not just an average effect; it is the ability to map
+        heterogeneity at multiple levels:
+      </p>
+      <ul>
+        <li><b>ATE</b>: average treatment effect.</li>
+        <li><b>IATE</b>: individualized treatment effects (rider-stage-level heterogeneity).</li>
+        <li><b>GATE</b>: group average treatment effects (captains vs. non-captains; specialties; stage profiles; team-home interactions).</li>
+      </ul>
+
+      <h3>Robustness: logistic regression</h3>
+      <p>
+        A classical binary choice model is run as a check. Some inputs are log-transformed (e.g., distance and points) to address
+        scale differences. Results are reported as marginal effects (percentage-point changes), not log-odds.
+      </p>
+    </section>
+
+    <section>
+      <h2>4) Main findings</h2>
+
+      <h3>Average effect: home is (slightly) bad on average</h3>
+      <p>
+        The MCF estimate of the <b>average treatment effect</b> is <b>-0.041</b>, interpreted as a <b>4.1 percentage-point reduction</b>
+        in the probability of finishing Top 15 when the stage is in the rider's home country. The reported p-value is extremely small
+        (given as 0.307%), consistent with statistical significance.
+      </p>
+      <p>
+        In plain terms: Riders racing "at home" are, on average, less likely to achieve a strong stage result.
+      </p>
+
+      <h3>Heterogeneity: the average masks wide dispersion</h3>
+      <p>
+        Individualized effects vary substantially. Two summary facts highlighted in the results:
+      </p>
+      <ul>
+        <li>About <b>9.98%</b> of individualized treatment effects (IATEs) are positive - i.e., for a minority, home conditions look beneficial.</li>
+        <li>About <b>37.65%</b> of riders exhibit IATEs significantly different from zero at the 5% level (suggesting many riders are meaningfully affected, not just a small tail).</li>
+      </ul>
+      <p>
+        The paper links this dispersion to psychological pressure mechanisms rather than terrain mechanics: crowd presence can raise
+        expectations and attention, turning "support" into performance pressure.
+      </p>
+    </section>
+
+    <section>
+      <h2>5) Who is hit hardest? Patterns in treatment-effect heterogeneity</h2>
+
+      <h3>Prior success makes "home" more costly</h3>
+      <p>
+        The strongest continuous pattern reported is between IATEs and <b>prior-year PCS points</b>.
+        Riders with higher points (a proxy for recent success and public exposure) show <b>more negative</b> home effects.
+        The proposed mechanism: higher achievement increases expectations and scrutiny, raising the likelihood of choking or
+        over-commitment under home attention.
+      </p>
+
+      <h3>Age: variance concentrated among mid-young riders</h3>
+      <p>
+        Ages 24-30 show higher variance in individualized effects. Older riders' effects "converge" (fewer extreme outliers),
+        consistent with selection and experience: riders who remain Tour-level into older ages are likely more resilient to pressure,
+        while early-career entrants who reach the Tour may already be highly supported and unusually strong.
+      </p>
+
+      <h3>Stage distance: not the main moderator, but crowd density may matter</h3>
+      <p>
+        Stage distance itself does not show a strong monotone pattern. However, the results note clustering that plausibly reflects
+        time trials (often in more audience-dense settings), with a fitted relationship suggesting lower average IATEs for TT-like
+        clusters - consistent with the crowd-pressure channel.
+      </p>
+
+      <div class="hr"></div>
+
+      <h3>Group results (GATEs)</h3>
+
+      <h4>Captains vs. non-captains</h4>
+      <ul>
+        <li><b>Non-captains</b>: home effect ~ <b>-0.034</b> (p ~ 1.19%).</li>
+        <li><b>Captains</b>: home effect ~ <b>-0.052</b> (p ~ 1.94%).</li>
+        <li>The difference between the two is not statistically distinguishable, so captain status is not treated as a clean moderator.</li>
+      </ul>
+
+      <h4>Rider specialty</h4>
+      <p>
+        Specialties are derived from PCS profile points (sprinter / hilly / mountainous types).
+        Reported group effects:
+      </p>
+      <ul>
+        <li><b>Hilly specialists</b>: ~ <b>-0.035</b> (p ~ 0.32%).</li>
+        <li><b>Mountain specialists</b>: ~ <b>-0.062</b> (p ~ 0.02%).</li>
+        <li><b>Sprinters</b>: slightly positive (~ <b>+0.03</b>) but not statistically compelling in the reported comparison.</li>
+      </ul>
+      <p>
+        The interpretation offered is strategic and behavioral: sprint stages are often the most spectator-dense (urban centers,
+        major roads). Sprinters who are selected and succeed in that niche may be precisely those better prepared for the "audience"
+        environment, whereas mountainous terrain can reduce crowd accessibility, changing the pressure profile and who is exposed.
+      </p>
+
+      <h4>Stage profile (parcours)</h4>
+      <p>
+        Grouping by stage profile yields negative effects that are individually significant, but the differences across profiles are not
+        statistically distinct. This is taken as evidence that "home" operates more through rider-specific channels than through the
+        stage's external physical conditions.
+      </p>
+
+      <h4>Team-home status</h4>
+      <p>
+        When riders are home riders but <i>not</i> on a home team, they show a negative home effect (reported around -0.041).
+        Riders on a home team do not show the same home penalty. Differences relative to the overall ATE are not sharply estimated,
+        but the pattern is consistent with buffering: teams "at home" may provide better logistics, insulation, or expectation management.
+      </p>
+    </section>
+
+    <section>
+      <h2>6) Robustness via logistic regression: what matches, what does not</h2>
+      <p>
+        The logistic regression is positioned as a check with more familiar interpretability. The reported marginal effects (percentage
+        points) align with standard cycling priors on performance determinants:
+      </p>
+      <ul>
+        <li><b>Prior-year rider points</b>: strongly positive association with Top-15 probability.</li>
+        <li><b>Captain status</b>: positive association (consistent with team support directed toward leaders).</li>
+        <li><b>Age</b>: negative association (older riders less likely to hit Top-15, holding other factors fixed).</li>
+        <li><b>Stage profile icon</b>: negative association (harder profiles reduce Top-15 probability broadly).</li>
+        <li><b>Tour completion share</b>: small positive association in the table (selection and conditioning effects can drive this).</li>
+        <li><b>TT match</b> and <b>specialty match (current stage)</b>: strongly positive; <b>specialty match in previous stage</b> negative; <b>next stage match</b> mildly negative - consistent with energy allocation across adjacent stages.</li>
+      </ul>
+
+      <p>
+        On the "home" variables specifically:
+      </p>
+      <ul>
+        <li><b>Rider home country</b>: negative sign but not statistically significant in the logistic specification (reported p-value ~ 0.154).</li>
+        <li><b>Team home country</b>: negative and statistically significant.</li>
+      </ul>
+
+      <p>
+        The authors treat the lack of significance on <code>rider_home_country</code> in the parametric logit as a limitation of the logit
+        structure for capturing the effect, and as an argument for the flexibility of MCF (nonparametric conditional expectation,
+        richer heterogeneity).
+      </p>
+    </section>
+
+    <section>
+      <h2>7) Interpretation: "home" as pressure, not a tailwind</h2>
+      <p>
+        The report's preferred mechanism is psychological. Crowd support is ambiguous: it can be encouragement, but it can also be a
+        demand for performance. In high-skill settings with narrow margins, heightened attention can increase errors, distort pacing,
+        or push riders into strategically inefficient efforts.
+      </p>
+      <p>
+        Three pieces of evidence inside the results are consistent with that channel:
+      </p>
+      <ul>
+        <li>The home penalty becomes more negative for riders with stronger recent performance signals (prior points), where expectations should be highest.</li>
+        <li>Heterogeneity is large; the effect is not a uniform "travel/familiarity" mechanism.</li>
+        <li>Stage-profile differences are not the main driver; rider-type differences dominate.</li>
+      </ul>
+    </section>
+
+
+    <section>
+      <h2>8) Bottom line</h2>
+      <p>
+        Across Tours 2020-2024, racing "at home" (stage country matches rider nationality) is associated with a
+        <b>lower</b> probability of a strong stage result, not a higher one, once the analysis conditions on a broad set of rider, team,
+        and stage features and trims to common support.
+      </p>
+      <p>
+        The average penalty is modest in absolute size (about four percentage points in Top-15 probability), but it is not
+        uniform: effects are dispersed, systematically worse for riders with stronger recent success signals, and plausibly consistent
+        with performance pressure rather than geographic familiarity.
+      </p>
+    </section>
+
+
+
+    <footer>
+      <a href="../writing.html">Back to writing</a>
+    </footer>
+  </main>
+</body>
+</html>
