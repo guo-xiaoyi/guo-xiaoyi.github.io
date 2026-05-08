@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Exam Timer</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f0f4f8;
+      --panel: #ffffff;
+      --border: #c8d6e5;
+      --accent: #1d4ed8;
+      --accent2: #2563eb;
+      --text: #0f172a;
+      --muted: #64748b;
+      --green: #16a34a;
+      --orange: #d97706;
+      --red: #dc2626;
+      --radius: 16px;
+    }
+
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    /* ── Setup overlay ──────────────────────────────────── */
+    #setup {
+      position: fixed; inset: 0;
+      background: rgba(240,244,248,0.98);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 100;
+    }
+
+    .setup-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 40px 48px;
+      width: min(560px, 92vw);
+      display: flex; flex-direction: column; gap: 20px;
+    }
+
+    .setup-card h2 {
+      font-size: 1.5rem; font-weight: 700;
+      color: var(--accent2);
+      letter-spacing: 0.04em;
+      text-align: center;
+    }
+
+    .field { display: flex; flex-direction: column; gap: 6px; }
+    .field label { font-size: 0.82rem; color: var(--muted); font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
+
+    .field input, .field select {
+      background: #e8eef5;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 1rem;
+      padding: 10px 14px;
+      outline: none;
+      transition: border-color .2s;
+    }
+    .field input:focus, .field select:focus { border-color: var(--accent2); }
+
+    .field input[type="file"] { padding: 8px 14px; cursor: pointer; }
+    .field input[type="file"]::file-selector-button {
+      background: var(--accent);
+      border: none; border-radius: 6px;
+      color: #fff; cursor: pointer;
+      font-size: 0.85rem; padding: 4px 12px; margin-right: 10px;
+    }
+
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+    /* ── Mode toggle ─────────────────────────────────────── */
+    .mode-toggle { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .mode-btn {
+      background: #e8eef5;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 0.85rem; font-weight: 600;
+      letter-spacing: 0.04em;
+      padding: 10px 8px;
+      text-align: center;
+      transition: background .2s, color .2s, border-color .2s;
+    }
+    .mode-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+    .btn-start {
+      background: var(--accent);
+      border: none; border-radius: 10px;
+      color: #fff; cursor: pointer;
+      font-size: 1.1rem; font-weight: 700;
+      letter-spacing: 0.06em;
+      padding: 14px;
+      transition: background .2s, transform .1s;
+      margin-top: 8px;
+    }
+    .btn-start:hover { background: var(--accent2); }
+    .btn-start:active { transform: scale(0.98); }
+
+    /* ── Main display ───────────────────────────────────── */
+    #display {
+      display: none;
+      width: 100vw; height: 100vh;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 40px 60px;
+      position: relative;
+    }
+
+    #display::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image:
+        linear-gradient(rgba(37,99,235,.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(37,99,235,.06) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+    }
+
+    /* ── Header ─────────────────────────────────────────── */
+    .header {
+      display: flex; align-items: center;
+      justify-content: space-between;
+      width: 100%; gap: 24px;
+    }
+    .logo-area { display: flex; align-items: center; gap: 18px; flex-shrink: 0; }
+    #logo-img { height: 72px; width: 72px; object-fit: contain; border-radius: 12px; background: transparent; }
+    .logo-placeholder {
+      height: 72px; width: 72px; border-radius: 12px;
+      background: var(--panel); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.65rem; color: var(--muted); text-align: center; line-height: 1.3;
+    }
+    .school-name { font-size: 1.5rem; font-weight: 700; color: var(--text); max-width: 340px; }
+
+    .current-time-box { text-align: right; }
+    .current-time-label { font-size: 0.75rem; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; }
+    #clock { font-size: 2.2rem; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--text); letter-spacing: 0.04em; }
+
+    /* ── Subject banner ─────────────────────────────────── */
+    .subject-banner { text-align: center; }
+    .subject-label { font-size: 0.8rem; color: var(--muted); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 6px; }
+    #subject-display { font-size: clamp(1.6rem, 3vw, 2.8rem); font-weight: 800; color: var(--accent2); letter-spacing: 0.02em; }
+
+    /* ── Main countdown ─────────────────────────────────── */
+    .countdown-section { display: flex; flex-direction: column; align-items: center; gap: 16px; }
+    .countdown-label { font-size: 0.85rem; color: var(--muted); letter-spacing: 0.12em; text-transform: uppercase; }
+
+    .digits-row { display: flex; align-items: center; gap: 8px; }
+
+    .digit-block {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      display: flex; flex-direction: column; align-items: center;
+      padding: 18px 24px 14px;
+      min-width: 130px;
+      position: relative; overflow: hidden;
+    }
+    .digit-block::after {
+      content: ''; position: absolute; left: 0; right: 0; top: 50%;
+      height: 1px; background: var(--border);
+    }
+    .digit-value {
+      font-size: clamp(4rem, 8vw, 7rem); font-weight: 800;
+      font-variant-numeric: tabular-nums; line-height: 1;
+      color: var(--text); transition: color .4s;
+    }
+    .digit-unit { font-size: 0.75rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 10px; }
+
+    .separator {
+      font-size: clamp(3rem, 6vw, 5.5rem); font-weight: 800;
+      color: var(--border); line-height: 1; margin-bottom: 24px;
+      animation: blink 1s step-end infinite;
+    }
+
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.2} }
+
+    /* ── Seconds reveal ──────────────────────────────────── */
+    /* seconds block + its separator fade+slide in when ≤5 min */
+    #sep-sec, #sec-block {
+      overflow: hidden;
+      max-width: 0;
+      opacity: 0;
+      transition: max-width .7s ease, opacity .7s ease;
+      pointer-events: none;
+    }
+    #sep-sec.visible, #sec-block.visible {
+      max-width: 200px;
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* colour states */
+    .state-normal .digit-value { color: var(--text); }
+    .state-warning .digit-value { color: var(--orange); }
+    .state-critical .digit-value { color: var(--red); }
+    .state-done .digit-value { color: var(--green); }
+
+    /* progress bar */
+    .progress-wrap {
+      width: min(700px, 80vw); height: 8px;
+      background: #e8eef5; border-radius: 99px; overflow: hidden;
+      border: 1px solid var(--border);
+    }
+    #progress-bar {
+      height: 100%; border-radius: 99px; background: var(--accent);
+      transition: width .9s linear, background .6s;
+    }
+
+    /* ── Info row ───────────────────────────────────────── */
+    .info-row { display: flex; gap: 32px; justify-content: center; flex-wrap: wrap; }
+    .info-card {
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: 12px; padding: 16px 28px; text-align: center; min-width: 180px;
+    }
+    .info-card .ic-label { font-size: 0.72rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 4px; }
+    .info-card .ic-value { font-size: 1.4rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+
+    /* ── "Ready to Start" overlay (mode=now confirmation) ── */
+    #start-confirm {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(240,244,248,0.96);
+      align-items: center; justify-content: center;
+      flex-direction: column; gap: 28px;
+      z-index: 60;
+    }
+    #start-confirm.active { display: flex; }
+
+    .sc-badge {
+      font-size: 0.78rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--muted); border: 1px solid var(--border);
+      border-radius: 99px; padding: 6px 18px;
+    }
+    .sc-subject {
+      font-size: clamp(1.8rem, 4vw, 3.2rem); font-weight: 800;
+      color: var(--accent2); text-align: center; max-width: 80vw;
+    }
+    .sc-duration {
+      font-size: 1.3rem; color: var(--muted); font-weight: 600;
+    }
+    .sc-hint {
+      font-size: 0.9rem; color: var(--muted); letter-spacing: 0.06em;
+      text-align: center; max-width: 420px; line-height: 1.6;
+    }
+    #btn-confirm-start {
+      background: var(--green);
+      border: none; border-radius: 14px;
+      color: #fff; cursor: pointer;
+      font-size: 1.4rem; font-weight: 800;
+      letter-spacing: 0.06em;
+      padding: 20px 56px;
+      transition: transform .12s, background .2s;
+      box-shadow: 0 4px 24px rgba(22,163,74,.20);
+    }
+    #btn-confirm-start:hover { background: #16a34a; }
+    #btn-confirm-start:active { transform: scale(0.97); }
+
+    /* ── Status banners (end / not started) ─────────────── */
+    #status-banner {
+      display: none; position: fixed; inset: 0;
+      background: rgba(240,244,248,0.94);
+      align-items: center; justify-content: center;
+      z-index: 50; flex-direction: column; gap: 20px;
+    }
+    #status-banner.active { display: flex; }
+    .banner-icon { font-size: 5rem; }
+    .banner-text { font-size: clamp(2rem, 5vw, 4rem); font-weight: 800; letter-spacing: 0.04em; }
+    .banner-sub { font-size: 1.2rem; color: var(--muted); }
+
+    /* ── Settings button ─────────────────────────────────── */
+    #settings-btn {
+      position: fixed; bottom: 20px; right: 24px;
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: 8px; color: var(--muted);
+      font-size: 0.78rem; cursor: pointer; padding: 8px 14px;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      transition: color .2s, border-color .2s; z-index: 10;
+    }
+    #settings-btn:hover { color: var(--text); border-color: var(--accent2); }
+  </style>
+</head>
+<body>
+
+<!-- ── Setup overlay ──────────────────────────────────── -->
+<div id="setup">
+  <div class="setup-card">
+    <h2>Exam Timer Setup</h2>
+
+    <div class="field">
+      <label>School / Institution Name</label>
+      <input id="s-school" type="text" placeholder="e.g. University of St.Gallen" value="Universität St.Gallen (HSG)" />
+    </div>
+
+    <div class="field">
+      <label>School Logo (optional)</label>
+      <input id="s-logo" type="file" accept="image/*" />
+    </div>
+
+    <div class="field">
+      <label>Exam Subject</label>
+      <input id="s-subject" type="text" placeholder="e.g. Corporate Finance — Final Exam" value="" />
+    </div>
+
+    <div class="field">
+      <label>Timing Mode</label>
+      <div class="mode-toggle">
+        <button class="mode-btn active" id="mode-now" type="button">Start Now + Duration</button>
+        <button class="mode-btn"        id="mode-custom" type="button">Custom Start / End</button>
+      </div>
+    </div>
+
+    <!-- Start Now mode -->
+    <div id="panel-now">
+      <div class="row">
+        <div class="field">
+          <label>Duration — Hours</label>
+          <input id="s-dur-h" type="number" min="0" max="12" value="1" placeholder="0" />
+        </div>
+        <div class="field">
+          <label>Duration — Minutes</label>
+          <input id="s-dur-m" type="number" min="0" max="59" value="30" placeholder="0" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Custom start/end mode -->
+    <div id="panel-custom" style="display:none">
+      <div class="row">
+        <div class="field">
+          <label>Start Time</label>
+          <input id="s-start" type="time" />
+        </div>
+        <div class="field">
+          <label>End Time</label>
+          <input id="s-end" type="time" />
+        </div>
+      </div>
+    </div>
+
+    <button class="btn-start" id="btn-launch">Launch Display</button>
+  </div>
+</div>
+
+<!-- ── Main display ───────────────────────────────────── -->
+<div id="display">
+
+  <div class="header">
+    <div class="logo-area">
+      <img id="logo-img" src="HSG_Logo_DE_RGB.png" alt="HSG Logo" style="display:block" />
+      <div class="logo-placeholder" id="logo-placeholder" style="display:none">SCHOOL<br>LOGO</div>
+      <div class="school-name" id="school-display"></div>
+    </div>
+    <div class="subject-banner">
+      <div class="subject-label">Exam Subject</div>
+      <div id="subject-display"></div>
+    </div>
+    <div class="current-time-box">
+      <div class="current-time-label">Current Time</div>
+      <div id="clock">00:00:00</div>
+    </div>
+  </div>
+
+  <div class="countdown-section" id="countdown-section">
+    <div class="countdown-label" id="countdown-label">Time Remaining</div>
+    <div class="digits-row" id="digits-row">
+      <div class="digit-block">
+        <div class="digit-value" id="d-h">00</div>
+        <div class="digit-unit">Hours</div>
+      </div>
+      <div class="separator">:</div>
+      <div class="digit-block">
+        <div class="digit-value" id="d-m">00</div>
+        <div class="digit-unit">Minutes</div>
+      </div>
+      <!-- seconds: hidden until ≤5 min -->
+      <div class="separator" id="sep-sec">:</div>
+      <div class="digit-block" id="sec-block">
+        <div class="digit-value" id="d-s">00</div>
+        <div class="digit-unit">Seconds</div>
+      </div>
+    </div>
+    <div class="progress-wrap">
+      <div id="progress-bar" style="width:100%"></div>
+    </div>
+  </div>
+
+  <div class="info-row">
+    <div class="info-card">
+      <div class="ic-label">Exam Start</div>
+      <div class="ic-value" id="info-start">—</div>
+    </div>
+    <div class="info-card">
+      <div class="ic-label">Exam End</div>
+      <div class="ic-value" id="info-end">—</div>
+    </div>
+    <div class="info-card">
+      <div class="ic-label">Duration</div>
+      <div class="ic-value" id="info-duration">—</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ── "Ready to Start" confirmation (mode=now only) ─── -->
+<div id="start-confirm">
+  <div class="sc-badge">Ready — Awaiting Start</div>
+  <div class="sc-subject" id="sc-subject-text"></div>
+  <div class="sc-duration" id="sc-duration-text"></div>
+  <div class="sc-hint">When you are ready, click the button below to begin the countdown.</div>
+  <button id="btn-confirm-start">Start Exam</button>
+</div>
+
+<!-- ── Status banners ─────────────────────────────────── -->
+<div id="status-banner">
+  <div class="banner-icon" id="banner-icon">⏳</div>
+  <div class="banner-text" id="banner-text">Exam Not Started</div>
+  <div class="banner-sub" id="banner-sub"></div>
+</div>
+
+<button id="settings-btn">&#9881; Settings</button>
+
+<script>
+  const $ = id => document.getElementById(id);
+  let startMs, endMs, totalMs, pendingDurMs;
+  let ticker = null;
+  let awaitingStart = false;
+
+  // ── helpers ─────────────────────────────────────────────
+  function pad(n) { return String(n).padStart(2, '0'); }
+
+  function todayMs(hhmm) {
+    const [h, m] = hhmm.split(':').map(Number);
+    const d = new Date();
+    d.setHours(h, m, 0, 0);
+    return d.getTime();
+  }
+
+  function fmtTime(ms) {
+    const d = new Date(ms);
+    return d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+  }
+
+  function fmtDuration(ms) {
+    const totalMin = Math.round(ms / 60000);
+    const h = Math.floor(totalMin / 60);
+    const m = totalMin % 60;
+    if (h === 0) return `${m} min`;
+    if (m === 0) return `${h} hr`;
+    return `${h} hr ${m} min`;
+  }
+
+  // ── mode toggle ──────────────────────────────────────────
+  let mode = 'now';
+
+  $('mode-now').addEventListener('click', () => {
+    mode = 'now';
+    $('mode-now').classList.add('active');
+    $('mode-custom').classList.remove('active');
+    $('panel-now').style.display = '';
+    $('panel-custom').style.display = 'none';
+  });
+
+  $('mode-custom').addEventListener('click', () => {
+    mode = 'custom';
+    $('mode-custom').classList.add('active');
+    $('mode-now').classList.remove('active');
+    $('panel-custom').style.display = '';
+    $('panel-now').style.display = 'none';
+  });
+
+  // ── setup defaults ───────────────────────────────────────
+  (function setDefaults() {
+    const now = new Date();
+    $('s-start').value = `${pad(now.getHours())}:${pad(now.getMinutes())}`;
+    const end = new Date(now.getTime() + 90 * 60000);
+    $('s-end').value = `${pad(end.getHours())}:${pad(end.getMinutes())}`;
+  })();
+
+  // ── logo upload ──────────────────────────────────────────
+  $('s-logo').addEventListener('change', function () {
+    const file = this.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = e => {
+      $('logo-img').src = e.target.result;
+      $('logo-img').style.display = 'block';
+      $('logo-placeholder').style.display = 'none';
+    };
+    reader.readAsDataURL(file);
+  });
+
+  // ── launch ───────────────────────────────────────────────
+  $('btn-launch').addEventListener('click', launch);
+
+  function launch() {
+    const school  = $('s-school').value.trim() || 'Examination';
+    const subject = $('s-subject').value.trim() || 'Final Examination';
+
+    $('school-display').textContent  = school;
+    $('subject-display').textContent = subject;
+
+    if (mode === 'now') {
+      const durH = parseInt($('s-dur-h').value) || 0;
+      const durM = parseInt($('s-dur-m').value) || 0;
+      pendingDurMs = (durH * 60 + durM) * 60000;
+      if (pendingDurMs <= 0) { alert('Please enter a duration greater than 0.'); return; }
+
+      // populate confirmation overlay
+      $('sc-subject-text').textContent  = subject;
+      $('sc-duration-text').textContent = 'Duration: ' + fmtDuration(pendingDurMs);
+
+      // info cards show "—" until teacher starts
+      $('info-start').textContent    = '—';
+      $('info-end').textContent      = '—';
+      $('info-duration').textContent = fmtDuration(pendingDurMs);
+
+      awaitingStart = true;
+      $('start-confirm').classList.add('active');
+
+    } else {
+      const sVal = $('s-start').value;
+      const eVal = $('s-end').value;
+      if (!sVal || !eVal) { alert('Please set both start and end times.'); return; }
+      startMs = todayMs(sVal);
+      endMs   = todayMs(eVal);
+      if (endMs <= startMs) { alert('End time must be after start time.'); return; }
+      totalMs = endMs - startMs;
+
+      $('info-start').textContent    = fmtTime(startMs);
+      $('info-end').textContent      = fmtTime(endMs);
+      $('info-duration').textContent = fmtDuration(totalMs);
+      awaitingStart = false;
+    }
+
+    $('setup').style.display  = 'none';
+    $('display').style.display = 'flex';
+
+    // clock always runs immediately
+    if (ticker) clearInterval(ticker);
+    tick();
+    ticker = setInterval(tick, 500);
+  }
+
+  // ── teacher confirms start (mode=now) ────────────────────
+  $('btn-confirm-start').addEventListener('click', () => {
+    startMs = Date.now();
+    endMs   = startMs + pendingDurMs;
+    totalMs = pendingDurMs;
+
+    $('info-start').textContent = fmtTime(startMs);
+    $('info-end').textContent   = fmtTime(endMs);
+
+    awaitingStart = false;
+    $('start-confirm').classList.remove('active');
+  });
+
+  // ── tick ─────────────────────────────────────────────────
+  function tick() {
+    const now = Date.now();
+
+    // live clock always updates
+    const d = new Date();
+    $('clock').textContent =
+      `${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+
+    // while waiting for teacher to click "Start Exam", do nothing else
+    if (awaitingStart) return;
+
+    const section = $('countdown-section');
+    const banner  = $('status-banner');
+
+    if (now < startMs) {
+      // custom mode: exam hasn't started yet
+      const wait = Math.max(0, Math.ceil((startMs - now) / 1000));
+      renderDigits(wait, true);
+      $('countdown-label').textContent = 'Exam Starts In';
+      setColorState('normal');
+      $('progress-bar').style.width = '100%';
+      $('progress-bar').style.background = 'var(--accent)';
+      section.style.display = 'flex';
+      banner.classList.remove('active');
+
+    } else if (now >= endMs) {
+      renderDigits(0, true);
+      section.style.display = 'flex';
+      $('countdown-label').textContent = 'Time Remaining';
+      setColorState('done');
+      $('progress-bar').style.width = '0%';
+      $('progress-bar').style.background = 'var(--green)';
+
+      $('banner-icon').textContent = '✓';
+      $('banner-text').textContent = 'Exam Has Ended';
+      $('banner-text').style.color = 'var(--green)';
+      $('banner-sub').textContent  = 'Please stop writing and put down your pens.';
+      banner.classList.add('active');
+
+    } else {
+      const remaining = Math.max(0, Math.ceil((endMs - now) / 1000));
+      renderDigits(remaining, false);
+      $('countdown-label').textContent = 'Time Remaining';
+      banner.classList.remove('active');
+      section.style.display = 'flex';
+
+      const pct = ((endMs - now) / totalMs) * 100;
+      $('progress-bar').style.width = pct + '%';
+
+      if (remaining <= 300) {
+        setColorState('critical');
+        $('progress-bar').style.background = 'var(--red)';
+      } else if (remaining <= 900) {
+        setColorState('warning');
+        $('progress-bar').style.background = 'var(--orange)';
+      } else {
+        setColorState('normal');
+        $('progress-bar').style.background = 'var(--accent)';
+      }
+    }
+  }
+
+  function renderDigits(totalSec, forceHideSeconds) {
+    const h = Math.floor(totalSec / 3600);
+    const m = Math.floor((totalSec % 3600) / 60);
+    const s = totalSec % 60;
+    $('d-h').textContent = pad(h);
+    $('d-m').textContent = pad(m);
+    $('d-s').textContent = pad(s);
+
+    // show seconds only in final 5 minutes of the real countdown
+    const showSec = !forceHideSeconds && totalSec <= 300;
+    $('sep-sec').classList.toggle('visible', showSec);
+    $('sec-block').classList.toggle('visible', showSec);
+  }
+
+  function setColorState(state) {
+    $('digits-row').className = `digits-row state-${state}`;
+  }
+
+  // ── settings button ───────────────────────────────────────
+  $('settings-btn').addEventListener('click', () => {
+    if (ticker) { clearInterval(ticker); ticker = null; }
+    awaitingStart = false;
+    $('start-confirm').classList.remove('active');
+    $('status-banner').classList.remove('active');
+    $('display').style.display = 'none';
+    $('setup').style.display   = 'flex';
+  });
+</script>
+</body>
+</html>
