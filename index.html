@@ -114,6 +114,16 @@
       font-size: 0.95em;
     }
 
+    .visually-hidden-counter {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+
     footer {
       margin-top: 4rem;
       font-size: 0.9em;
@@ -211,7 +221,10 @@
     <footer>
       &copy; 2025 Xiaoyi Guo. All rights reserved. 
       <br>
-      <a href="https://info.flagcounter.com/tvfK"><img src="https://s01.flagcounter.com/count/tvfK/bg_D1D1D1/txt_000000/border_858585/columns_5/maxflags_5/viewers_countries+that+visit+the+most/labels_0/pageviews_0/flags_0/percent_0/" alt="Flag Counter" border="0"></a>
+      <span class="visually-hidden-counter" aria-hidden="true">
+        <!-- Flag Counter stats: https://info.flagcounter.com/tvfK -->
+        <a href="https://info.flagcounter.com/tvfK" tabindex="-1"><img src="https://s01.flagcounter.com/count/tvfK/bg_D1D1D1/txt_000000/border_858585/columns_5/maxflags_5/viewers_countries+that+visit+the+most/labels_0/pageviews_0/flags_0/percent_0/" alt="" border="0"></a>
+      </span>
     </footer>
   </div>
 </body>
